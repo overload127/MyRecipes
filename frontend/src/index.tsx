@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import App from './App';
+import MainApp from './MainApp/MainApp';
 import reportWebVitals from './reportWebVitals';
 import store from './store/store';
 import 'sanitize.css';
@@ -14,7 +14,7 @@ root.render(
   <BrowserRouter>
     <Provider store={store}>
       <Routes>
-        <Route path="/*" element={<App />} />
+        <Route path="/*" element={<MainApp />} />
       </Routes>
     </Provider>
   </BrowserRouter>,

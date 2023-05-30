@@ -1,0 +1,23 @@
+.settingDrawerHandle {
+    position: absolute;
+    top: 240px;
+    right: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    font-size: 16px;
+    text-align: center;
+    border-radius: 4px 0 0 4px;
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+    cursor: pointer;
+    pointer-events: auto;
+    z-index: 999;
+}
+
+// .container {
+//     display: block;
+//     z-index: 999;
+// }
