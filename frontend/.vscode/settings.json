@@ -2,10 +2,9 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
-    "eslint.validate": [
-        "javascript"
-    ],
+    "eslint.validate": [ "javascript", "javascriptreact", "html", "typescriptreact" ],
     "eslint.options": { "overrideConfigFile": "../.eslintrc.js" },
+    "eslint.lintTask.options": "-c ../.eslintrc.js",
     "eslint.format.enable": true,
     "editor.formatOnPaste": false,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -32,6 +31,9 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[react]": {
+        "editor.tabSize": 2
+    },
+    "[typescriptreact]": {
         "editor.tabSize": 2
     },
     "liveServer.settings.CustomBrowser": "chrome"

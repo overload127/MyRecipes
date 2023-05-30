@@ -40,7 +40,13 @@ module.exports = {
     '@typescript-eslint/ban-types': 'off',
     'no-console': 'off',
     'no-debugger': 'off',
-    indent: ['error', 2],
+    // indent: [
+    //   'error',
+    //   2,
+    //   {
+    //     ignoredNodes: ['TemplateLiteral *'],
+    //   },
+    // ],
     'linebreak-style': ['error', 'unix'],
     quotes: [2, 'single'],
     '@typescript-eslint/quotes': [
