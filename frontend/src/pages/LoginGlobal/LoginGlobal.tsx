@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import { useAppDispatch } from '../../hooks/redux';
-import { loginAuth } from '../../store/reducers/ActionCreators';
+import { useAppDispatch } from 'hooks/redux';
+import { loginAuth } from 'store/reducers/auth/ActionCreators';
 
 interface IState {
   from?: IFrom;
@@ -21,7 +21,7 @@ function Login(): JSX.Element {
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as IState;
-  const from = state.from?.pathname || '/';
+  const from = state?.from?.pathname || '/';
 
   const handleSubmit = async () => {
     const result: boolean = await dispatch(loginAuth(email, password));

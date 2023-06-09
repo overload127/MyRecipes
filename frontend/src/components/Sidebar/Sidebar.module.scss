@@ -1,0 +1,44 @@
+.container {
+    text-align: 'center';
+
+    .topLeftSpace {
+        border-bottom: 1px rgb(189 189 189 / 22%) solid;
+
+        .logo {
+            height: 100%;
+            margin: 0px;
+            padding: 4px;
+            background: rgba(255,255,255,.2);
+            border-radius: 6px;
+            
+            
+            .content {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-around;    
+    
+                >img {
+                    height: 100%;
+                }
+
+
+                >p {
+                    white-space: nowrap;
+
+                    >span {
+                        color: red;
+                    }
+                }
+                
+            }
+
+        }
+    }
+
+    .trigger {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+    }
+}

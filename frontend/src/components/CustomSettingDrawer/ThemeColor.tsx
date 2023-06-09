@@ -46,4 +46,4 @@ const ThemeColor: React.ForwardRefRenderFunction<HTMLDivElement, ThemeColorProps
   return <div className="dadsda">{items}</div>;
 };
 
-export { ThemeColor };
+export default ThemeColor;

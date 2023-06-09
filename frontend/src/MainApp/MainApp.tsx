@@ -1,26 +1,26 @@
-import { useEffect, useState } from 'react';
-import { ConfigProvider, theme, Layout, Card, Button } from 'antd';
+import { useEffect } from 'react';
+import { theme, Layout, Card, Button } from 'antd';
+import { SearchOutlined, LoginOutlined } from '@ant-design/icons';
+
 import { ToastContainer, Slide } from 'react-toastify';
 import { useAppSelector, useAppDispatch } from 'hooks/redux';
-import { checkAuth } from 'store/reducers/ActionCreators';
+import { checkAuth } from 'store/reducers/auth/ActionCreators';
 
-import LayoutAreaExtratop from 'components/LayoutAreaExtratop/LayoutAreaExtratop';
-import MySettingDrawer, { TypeItemColorList, colorList } from 'components/MySettingDrawer/MySettingDrawer';
+import LayoutAreaExtraTop from 'components/LayoutAreaExtraTop/LayoutAreaExtraTop';
+import CustomSettingDrawer from 'components/CustomSettingDrawer/CustomSettingDrawer';
+import Sidebar from 'components/Sidebar/Sidebar';
 import AppRoutes from './AppRoutes';
-// import { ThemeColor } from 'ThemeColor';
 
-// import style from './MainApp.module.scss';
+import style from './MainApp.module.scss';
 
-const { defaultAlgorithm, darkAlgorithm, compactAlgorithm } = theme;
-
-const { Content, Footer } = Layout;
+const { Header, Content, Footer } = Layout;
 
 function App(): JSX.Element {
   const { isFirstAuth } = useAppSelector((state) => state.authReducer);
   const dispatch = useAppDispatch();
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
-  const [isCompact, setIsCompact] = useState<boolean>(false);
-  const [colorPrimary, setColorPrimary] = useState<TypeItemColorList>('techBlue');
+  const {
+    token: { colorBgContainer, controlHeight },
+  } = theme.useToken();
 
   useEffect(() => {
     dispatch(checkAuth());
@@ -30,44 +30,44 @@ function App(): JSX.Element {
     return <div>Загрузка приложения ...</div>;
   }
 
-  const currentAlgo = [isDarkMode ? darkAlgorithm : defaultAlgorithm];
-  if (isCompact) {
-    currentAlgo.push(compactAlgorithm);
-  }
-
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: colorList[colorPrimary],
-        },
-        algorithm: currentAlgo,
-      }}
-    >
-      <Layout>
-        <LayoutAreaExtratop />
-        {/* <Header /> */}
-        <Content>
+    <>
+      <Layout className={style.layout}>
+        <LayoutAreaExtraTop />
+        <Layout>
+          <Sidebar />
           <Layout>
-            {/* <ProgressBar /> */}
-            {/* <SwitchBreadcrumb /> */}
-            <span>Темная тема</span>
-            <Card style={{ width: 'max-content' }}>
-              <Button>Change Theme to {isDarkMode ? 'Light' : 'Dark'}</Button>
-            </Card>
-            <AppRoutes />
+            <Content>
+              <Header
+                className={style.header}
+                style={{
+                  background: colorBgContainer,
+                  maxHeight: controlHeight * 2,
+                  height: controlHeight * 2,
+                }}
+              >
+                <button type="button">
+                  <SearchOutlined />
+                </button>
+                <button type="button">
+                  <LoginOutlined />
+                  login
+                </button>
+              </Header>
+              <Layout>
+                {/* <ProgressBar /> */}
+                {/* <SwitchBreadcrumb /> */}
+                <Card style={{ width: 'max-content' }}>
+                  <Button>Change Theme to Dark</Button>
+                </Card>
+                <AppRoutes />
+              </Layout>
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>©2023</Footer>
           </Layout>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>©2023</Footer>
+        </Layout>
       </Layout>
-      <MySettingDrawer
-        isDarkMode={isDarkMode}
-        isCompact={isCompact}
-        colorPrimary={colorPrimary}
-        setIsDarkMode={setIsDarkMode}
-        setIsCompact={setIsCompact}
-        setColorPrimary={setColorPrimary}
-      />
+      <CustomSettingDrawer />
       <ToastContainer
         position="top-right"
         transition={Slide}
@@ -80,7 +80,7 @@ function App(): JSX.Element {
         draggable
         pauseOnHover
       />
-    </ConfigProvider>
+    </>
   );
 }
 

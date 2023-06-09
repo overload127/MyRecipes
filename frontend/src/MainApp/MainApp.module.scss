@@ -1,0 +1,13 @@
+.layout {
+    height: 100vh;
+
+    .header {
+        text-align: 'center';
+        height: 64;
+        padding-inline: 50;
+        line-height: '64px';
+        background-color: '#7dbcea';
+        display: flex;
+        // justify-content: flex-end;
+    }
+}

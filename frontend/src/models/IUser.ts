@@ -1,7 +1,7 @@
 export interface IUser {
   id: string;
   email: string;
-  isAnonym?: boolean;
+  isAnonym: boolean;
 }
 
 export const anonym: IUser = {

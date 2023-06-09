@@ -2,7 +2,7 @@ import { lazy } from 'react';
 import { Routes, Route, NavLink, useNavigate } from 'react-router-dom';
 
 import { useAppDispatch } from '../../hooks/redux';
-import { logoutAuth } from '../../store/reducers/ActionCreators';
+import { logoutAuth } from 'store/reducers/auth/ActionCreators';
 
 import withSuspense from '../../utils/withSuspense';
 

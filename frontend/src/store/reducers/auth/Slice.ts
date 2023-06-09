@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IUser, anonym } from '../../models/IUser';
+import { IUser, anonym } from 'models/IUser';
 
 interface IAuthState {
   isFirstAuth: boolean;

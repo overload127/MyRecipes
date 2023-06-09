@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../../hooks/redux';
-import { loginAuth } from '../../store/reducers/ActionCreators';
+import { useAppSelector, useAppDispatch } from 'hooks/redux';
+import { loginAuth } from 'store/reducers/auth/ActionCreators';
 
 function Login(): JSX.Element {
   const [email, setEmail] = useState<string>('');

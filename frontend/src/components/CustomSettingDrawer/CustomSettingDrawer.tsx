@@ -1,44 +1,17 @@
-import { useState, Dispatch, SetStateAction } from 'react';
+import { useState, useContext } from 'react';
 import { theme, Drawer, Switch, Tooltip, Form, Typography, Space } from 'antd';
 import { CloseOutlined, SettingOutlined } from '@ant-design/icons';
-
-import style from './MySettingDrawer.module.scss';
-import { ThemeColor } from './ThemeColor';
+import { colorList, TypeItemColorList, ThemeContext } from 'context/Theme';
+import ThemeColor from './ThemeColor';
+import style from './CustomSettingDrawer.module.scss';
 
 const { useToken } = theme;
 const { Text } = Typography;
 
-export const colorList = {
-  techBlue: '#1677FF',
-  daybreak: '#1890ff',
-  dust: '#F5222D',
-  volcano: '#FA541C',
-  sunset: '#FAAD14',
-  cyan: '#13C2C2',
-  green: '#52C41A',
-  geekblue: '#2F54EB',
-  purple: '#722ED1',
-};
+function CustomSettingDrawer(): JSX.Element {
+  const { isDarkMode, setIsDarkMode, isCompact, setIsCompact, optionColorPrimary, setOptionColorPrimary } =
+    useContext(ThemeContext);
 
-export type TypeItemColorList = keyof typeof colorList;
-
-interface IProps {
-  isDarkMode: boolean;
-  isCompact: boolean;
-  colorPrimary: TypeItemColorList;
-  setIsDarkMode: Dispatch<SetStateAction<boolean>>;
-  setIsCompact: Dispatch<SetStateAction<boolean>>;
-  setColorPrimary: Dispatch<SetStateAction<TypeItemColorList>>;
-}
-
-function MySettingDrawer({
-  isDarkMode,
-  isCompact,
-  colorPrimary,
-  setIsDarkMode,
-  setIsCompact,
-  setColorPrimary,
-}: IProps): JSX.Element {
   const [open, setOpen] = useState<boolean>(false);
   const { token } = useToken();
   const drawerOpenProps = {
@@ -92,8 +65,8 @@ function MySettingDrawer({
           <Text>Основной цвет:</Text>
           <ThemeColor
             colorList={colorList}
-            value={colorPrimary}
-            onChange={(colorName: string) => setColorPrimary(colorName as TypeItemColorList)}
+            value={optionColorPrimary}
+            onChange={(colorName: string) => setOptionColorPrimary(colorName as TypeItemColorList)}
           />
         </Space>
       </Form>
@@ -127,4 +100,4 @@ function MySettingDrawer({
   );
 }
 
-export default MySettingDrawer;
+export default CustomSettingDrawer;

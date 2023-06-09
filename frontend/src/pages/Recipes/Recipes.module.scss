@@ -1,0 +1,44 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+
+    .container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        flex-grow: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            width: 400px;
+            margin: 20px;
+    
+            .footer {
+                margin-top: auto;
+
+                .line {
+                    display:block;
+                    margin-top: 20px;
+                    border-bottom:1px solid black;
+                    content: ""
+                }
+
+                .content {
+                    display: flex;
+                    justify-content: space-between;
+
+                    .author {
+                        margin: 5px 0;
+                    }
+                }
+            }
+        }
+    }
+}

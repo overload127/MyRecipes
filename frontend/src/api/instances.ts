@@ -1,6 +1,6 @@
 import * as axios from 'axios';
 
-import { authSlice } from '../store/reducers/AuthSlice';
+import { authSlice } from 'store/reducers/auth/Slice';
 
 import store from '../store/store';
 

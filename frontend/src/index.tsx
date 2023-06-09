@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { ThemeProvider } from 'context/Theme';
 import MainApp from './MainApp/MainApp';
 import reportWebVitals from './reportWebVitals';
 import store from './store/store';
@@ -13,9 +14,11 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <Routes>
-        <Route path="/*" element={<MainApp />} />
-      </Routes>
+      <ThemeProvider>
+        <Routes>
+          <Route path="/*" element={<MainApp />} />
+        </Routes>
+      </ThemeProvider>
     </Provider>
   </BrowserRouter>,
 );
