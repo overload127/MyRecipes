@@ -78,20 +78,22 @@ function CustomSettingDrawer(): JSX.Element {
         tabIndex={0}
         style={{
           backgroundColor: token.colorPrimary,
+          height: token.controlHeight * 1.5,
+          width: token.controlHeight * 1.5,
         }}
       >
         {open ? (
           <CloseOutlined
             style={{
               color: '#fff',
-              fontSize: 20,
+              fontSize: token.fontSize * 1.42,
             }}
           />
         ) : (
           <SettingOutlined
             style={{
               color: '#fff',
-              fontSize: 20,
+              fontSize: token.fontSize * 1.42,
             }}
           />
         )}

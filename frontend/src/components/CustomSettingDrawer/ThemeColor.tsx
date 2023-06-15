@@ -3,18 +3,27 @@ import { Tooltip } from 'antd';
 import React from 'react';
 import style from './ThemeColor.module.scss';
 
-export type TagProps = {
+type TagProps = {
   color: string;
   check: boolean;
   className?: string;
   onClick?: () => void;
 };
 
-const Tag: React.FC<TagProps> = React.forwardRef(({ color, check, ...rest }, ref) => (
-  <div {...rest} style={{ backgroundColor: color }} ref={ref as any}>
-    {check ? <CheckOutlined /> : ''}
-  </div>
-));
+const Tag = React.forwardRef(
+  ({ color, check, ...rest }: TagProps, ref: React.ForwardedRef<HTMLDivElement>): JSX.Element => {
+    return (
+      <div {...rest} style={{ backgroundColor: color }} ref={ref}>
+        {check ? <CheckOutlined /> : ''}
+      </div>
+    );
+  },
+);
+
+Tag.defaultProps = {
+  className: '',
+  onClick: () => {},
+};
 
 export type ThemeColorProps = {
   colorList: { [key: string]: string };
@@ -22,11 +31,7 @@ export type ThemeColorProps = {
   onChange: (color: string) => void;
 };
 
-const ThemeColor: React.ForwardRefRenderFunction<HTMLDivElement, ThemeColorProps> = ({
-  value,
-  colorList,
-  onChange,
-}) => {
+function ThemeColor({ value, colorList, onChange }: ThemeColorProps): React.ReactElement<HTMLDivElement> | null {
   if (!colorList || Object.keys(colorList).length < 1) {
     return null;
   }
@@ -44,6 +49,6 @@ const ThemeColor: React.ForwardRefRenderFunction<HTMLDivElement, ThemeColorProps
     );
   });
   return <div className="dadsda">{items}</div>;
-};
+}
 
 export default ThemeColor;
