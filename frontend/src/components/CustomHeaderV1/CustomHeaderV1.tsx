@@ -4,8 +4,8 @@ import { Layout, Menu } from 'antd';
 import { useAppSelector } from 'hooks/redux';
 // import { QuestionCircleOutlined } from '@ant-design/icons';
 
-import urlConst, { PermissionType, UrlConstType } from 'settings/urlConst';
-import style from './CustomHeader.module.scss';
+import UseUrlConst, { PermissionType, UrlConstType } from 'settings/urlConst';
+import style from './CustomHeaderV1.module.scss';
 
 const { SubMenu } = Menu;
 const { Header } = Layout;
@@ -66,9 +66,10 @@ function renderMenu({ urlTree, isAuth, urlPrefix = '' }: IPropsRenderMenu): JSX.
   return renderTree;
 }
 
-function CustomHeader() {
+function CustomHeaderV1() {
   const { isAnonym } = useAppSelector((state) => state.authReducer.user);
   const location = useLocation();
+  const urlConst = UseUrlConst();
 
   const currentMenu = useMemo(() => renderMenu({ urlTree: urlConst, isAuth: !isAnonym, urlPrefix: '' }), [isAnonym]);
 
@@ -84,4 +85,4 @@ function CustomHeader() {
   );
 }
 
-export default CustomHeader;
+export default CustomHeaderV1;

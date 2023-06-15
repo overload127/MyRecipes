@@ -1,0 +1,24 @@
+.container {
+    text-align: 'center';
+    padding-inline: 50;
+    background-color: '#7dbcea';
+    display: flex;
+    justify-content: flex-end;
+
+    .button {
+        border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: background-color 0.33s linear;
+
+        &:hover {
+            background-color: rgba(229, 224, 216, 0.507);
+            cursor: pointer;
+        }
+
+        .loginIcon {
+            padding: 10px;
+        }
+    }
+}

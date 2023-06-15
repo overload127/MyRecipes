@@ -1,7 +1,7 @@
 import { AppDispatch } from 'store/store';
-import { authSlice } from './Slice';
-import { authAPI } from 'api/api';
 import { anonym } from 'models/IUser';
+import { authAPI } from 'api/api';
+import { authSlice } from './Slice';
 
 export const checkAuth = () => async (dispatch: AppDispatch) => {
   if (localStorage.getItem('jwt')) {

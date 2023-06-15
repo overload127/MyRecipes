@@ -5,7 +5,8 @@ import type { MenuProps } from 'antd/es/menu';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { useAppSelector } from 'hooks/redux';
 import { ThemeContext } from 'context/Theme';
-import urlConst, { PermissionType, UrlConstType, MenuType } from 'settings/urlConst';
+import UseUrlConst, { PermissionType, UrlConstType } from 'settings/urlConst';
+import { headerHeight } from 'settings/valuesConst';
 import style from './Sidebar.module.scss';
 
 const { Header, Sider } = Layout;
@@ -27,7 +28,7 @@ function createItemFromTree({ urlTree, isAuth, urlPrefix = '' }: IPropsRenderMen
 
   Object.keys(urlTree).forEach((key) => {
     if (
-      urlTree[key].menuType === MenuType.SIDEBAR &&
+      urlTree[key].useInSidebar &&
       ((isAuth &&
         (urlTree[key].permission === PermissionType.PUBLIC || urlTree[key].permission === PermissionType.PRIVATE)) ||
         (!isAuth &&
@@ -65,10 +66,14 @@ function Sidebar() {
   const { isDarkMode } = useContext(ThemeContext);
   const location = useLocation();
   const navigate = useNavigate();
+  const urlConst = UseUrlConst();
   const {
     token: { colorBgContainer, colorPrimary, controlHeight, boxShadow },
   } = theme.useToken();
-  const items = useMemo(() => createItemFromTree({ urlTree: urlConst, isAuth: !isAnonym, urlPrefix: '' }), [isAnonym]);
+  const items = useMemo(
+    () => createItemFromTree({ urlTree: urlConst, isAuth: !isAnonym, urlPrefix: '' }),
+    [isAnonym, urlConst],
+  );
 
   const handleClick = ({ key }: { key: string }) => {
     if (location.pathname !== key) {
@@ -99,9 +104,9 @@ function Sidebar() {
       <Header
         style={{
           background: colorBgContainer,
-          maxHeight: controlHeight * 2,
-          height: controlHeight * 2,
-          padding: controlHeight * 0.4,
+          maxHeight: controlHeight * headerHeight,
+          height: controlHeight * headerHeight,
+          padding: controlHeight * 0.15,
         }}
         className={style.topLeftSpace}
       >
