@@ -61,6 +61,7 @@ module.exports = {
     semi: ['error', 'always'],
     'react/jsx-props-no-spreading': 'off',
     'react/no-unescaped-entities': 'off',
+    'react/prop-types': 0,
   },
   ignorePatterns: ['.eslintrc.js'],
 };
