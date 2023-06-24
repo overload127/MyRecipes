@@ -118,8 +118,8 @@ function CustomCarousel({ reverseDirection }: IProps) {
       }}
     >
       {objectData.map((recipe) => (
-        <SwiperSlide>
-          <a href={`/recipe/${recipe.id}`} key={recipe.id} className={style.wrapCard}>
+        <SwiperSlide className={style.wrapItem} key={recipe.id}>
+          <a href={`/recipe/${recipe.id}`} className={style.wrapCard}>
             <Card
               hoverable
               className={style.card}

@@ -1,6 +1,5 @@
 import { theme } from 'antd';
 import Icon, { HomeOutlined } from '@ant-design/icons';
-import PageLogin from 'pages/Login/Login';
 // import Kebab from './icon/kebab-icon.svg';
 import Kebab from './icon/kebab';
 import PageHome from '../pages/Home/Home';
@@ -188,17 +187,17 @@ function UseUrlConst(): UrlConstType {
     //   },
     // },
 
-    PAGE_LOGIN: {
-      url: '/login',
-      title: 'Вход',
-      permission: PermissionType.GUEST,
-      button: false,
-      actionButton: null,
-      component: PageLogin,
-      icon: null,
-      useInSidebar: false,
-      menu: null,
-    },
+    // PAGE_LOGIN: {
+    //   url: '/login',
+    //   title: 'Вход',
+    //   permission: PermissionType.GUEST,
+    //   button: false,
+    //   actionButton: null,
+    //   component: PageLogin,
+    //   icon: null,
+    //   useInSidebar: false,
+    //   menu: null,
+    // },
     BUTTON_LOGOUT: {
       url: '',
       title: 'Выход',

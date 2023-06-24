@@ -1,50 +1,129 @@
-import { AppDispatch } from 'store/store';
+import { toast } from 'react-toastify';
+import { AppDispatch, RootState } from 'store/store';
 import { anonym } from 'models/IUser';
 import { authAPI } from 'api/api';
+import { parseJwt } from 'utils/other';
 import { authSlice } from './Slice';
 
-export const checkAuth = () => async (dispatch: AppDispatch) => {
-  if (localStorage.getItem('jwt')) {
+export const loadUserFromLocalStorage = () => async (dispatch: AppDispatch) => {
+  const refresh = localStorage.getItem('refresh');
+  if (refresh) {
+    const tokenData = parseJwt(refresh);
+    dispatch(
+      authSlice.actions.authFetchingSuccess({
+        id: tokenData.user_id.toString(),
+        email: 'empty',
+        isAnonym: false,
+      }),
+    );
+  } else {
+    dispatch(authSlice.actions.authFetchingSuccess(anonym));
+  }
+  dispatch(authSlice.actions.initUserSuccess());
+};
+
+export const loginAuth =
+  (login: string, password: string, remember: boolean) => async (dispatch: AppDispatch, getStore: () => RootState) => {
+    console.log({ remember });
+    const { isFetching } = getStore().authReducer;
+    if (isFetching) {
+      toast.info('Ожидайте, ждем ответа от сервера ...', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: 'colored',
+      });
+      return;
+    }
     try {
       dispatch(authSlice.actions.authFetching());
-      const result = await authAPI.checkAuth();
-      localStorage.setItem('jwt', result.data.access_token);
-      dispatch(authSlice.actions.authFetchingSuccess(result.data.user));
+      const result = await authAPI.login(login, password);
+      localStorage.setItem('refresh', result.data.refresh);
+      localStorage.setItem('access', result.data.access);
+      const tokenData = parseJwt(result.data.refresh);
+      dispatch(
+        authSlice.actions.authFetchingSuccess({
+          id: tokenData.user_id.toString(),
+          email: 'empty',
+          isAnonym: false,
+        }),
+      );
     } catch (e) {
-      console.log(e.response?.data?.message);
+      console.log(e.response?.data?.detail);
       console.log(e.message);
+      toast.warn('Не правильный логин или пароль', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: 'colored',
+      });
       dispatch(authSlice.actions.authFetchingError(e.message));
     }
-  }
-  await dispatch(authSlice.actions.isFirstAuth());
-};
+  };
 
-export const loginAuth = (login: string, password: string) => async (dispatch: AppDispatch) => {
+export const logoutAuth = () => async (dispatch: AppDispatch, getStore: () => RootState) => {
+  const refresh = localStorage.getItem('refresh');
+  if (!refresh) {
+    toast.info('Вы уже вышли из приложения.', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: 'colored',
+    });
+    return;
+  }
+  const { isFetching } = getStore().authReducer;
+  if (isFetching) {
+    toast.info('Ожидайте, ждем ответа от сервера ...', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: 'colored',
+    });
+    return;
+  }
   try {
     dispatch(authSlice.actions.authFetching());
-    const result = await authAPI.login(login, password);
-    localStorage.setItem('jwt', result.data.access_token);
-    dispatch(authSlice.actions.authFetchingSuccess(result.data.user));
-    return true;
-  } catch (e) {
-    console.log(e.response?.data?.message);
-    console.log(e.message);
-    dispatch(authSlice.actions.authFetchingError(e.message));
-    return false;
+    await authAPI.logout(refresh);
+  } catch (error) {
+    console.error(error);
   }
+  dispatch(authSlice.actions.authFetchingSuccess(anonym));
+  localStorage.removeItem('refresh');
+  localStorage.removeItem('access');
 };
 
-export const logoutAuth = () => async (dispatch: AppDispatch) => {
-  try {
-    dispatch(authSlice.actions.authFetching());
-    await authAPI.logout();
-    localStorage.setItem('jwt', '');
-    dispatch(authSlice.actions.authFetchingSuccess(anonym));
-  } catch (e) {
-    console.log(e.response?.data?.message);
-    console.log(e.message);
-    dispatch(authSlice.actions.authFetchingError(e.message));
-  }
+export const loginAuthTest = (login: string, password: string, remember: boolean) => async (dispatch: AppDispatch) => {
+  console.log({ login, password, remember });
+  dispatch(authSlice.actions.authFetching());
+  const waitPromise = new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(1);
+    }, 15000);
+  });
+  const accessToken = await waitPromise.then(() => {
+    return 'testToken';
+  });
+  localStorage.setItem('jwt', accessToken);
+  dispatch(
+    authSlice.actions.authFetchingSuccess({
+      id: '0001',
+      email: 'test@mail.ru',
+      isAnonym: false,
+    }),
+  );
 };
 
 export default null;

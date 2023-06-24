@@ -6,16 +6,16 @@ import { instancePublic, instancePrivate } from './instances';
 
 export const authAPI = {
   async login(username: string, password: string): Promise<AxiosResponse<IAuthResponse>> {
-    return instancePublic.post<IAuthResponse>('/auth/login', {
-      email: username,
+    return instancePublic.post<IAuthResponse>('/auth/token/', {
+      username,
       password,
     });
   },
-  async checkAuth(): Promise<AxiosResponse<IAuthResponse>> {
-    return instancePrivate.get<IAuthResponse>('/auth/check', {});
-  },
-  async logout(): Promise<void> {
-    return instancePrivate.post('/auth/logout', {});
+
+  async logout(refresh: string): Promise<void> {
+    return instancePrivate.post('/auth/token/logout/', {
+      refresh,
+    });
   },
 };
 
@@ -29,6 +29,18 @@ export const recipeAPI = {
       `/api/v1/recipes?page=${page}&is_desc=${Number(isDesc)}&per_page=${perPage}`,
       {},
     );
+  },
+};
+
+type UserDataType = {
+  email: string;
+  id: number;
+  username: string;
+};
+
+export const testPrivateAPI = {
+  test(): Promise<AxiosResponse<UserDataType[]>> {
+    return instancePrivate.get<UserDataType[]>('/auth/users/', {});
   },
 };
 

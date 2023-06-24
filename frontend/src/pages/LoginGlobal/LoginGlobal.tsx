@@ -1,48 +1,45 @@
-// import { useState } from 'react';
-// import { useNavigate, useLocation } from 'react-router-dom';
-// import { useAppDispatch } from 'hooks/redux';
-// import { loginAuth } from 'store/reducers/auth/ActionCreators';
+import { useContext, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAppSelector } from 'hooks/redux';
+import { useElementSize } from 'usehooks-ts';
+import { ThemeContext } from 'context/Theme';
 import CustomCarousel from 'components/CustomCarousel/CustomCarousel';
 import FormLogin from 'components/FormLogin/FormLogin';
 
 import style from './LoginGlobal.module.scss';
 
-// interface IState {
-//   from?: IFrom;
-// }
+type FromType = {
+  pathname?: string;
+};
 
-// interface IFrom {
-//   pathname?: string;
-// }
+type StateType = {
+  from?: FromType;
+};
 
 function LoginGlobal(): JSX.Element {
-  // const [email, setEmail] = useState<string>('');
-  // const [password, setPassword] = useState<string>('');
-  // const dispatch = useAppDispatch();
+  const { isAnonym } = useAppSelector((state) => state.authReducer.user);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // const navigate = useNavigate();
-  // const location = useLocation();
-  // const state = location.state as IState;
-  // const from = state?.from?.pathname || '/';
+  useEffect(() => {
+    const state = location.state as StateType;
+    const from = state?.from?.pathname || '/';
+    if (!isAnonym) navigate(from, { replace: true });
+  }, [isAnonym, navigate, location]);
 
-  // const handleSubmit = async () => {
-  //   const result: boolean = await dispatch(loginAuth(email, password));
-  //   if (result) navigate(from, { replace: true });
-  // };
+  const [squareRef, { height }] = useElementSize();
+  const { isDarkMode } = useContext(ThemeContext);
+
+  const boxShadow = isDarkMode ? '5px 5px 50px rgba(255, 255, 255, 0.5)' : '20px 20px 50px rgba(0, 0, 0, 0.5)';
 
   return (
-    <div className={style.container}>
-      <div className={style.test}>
+    <div className={style.container} ref={squareRef}>
+      <div className={style.backgroundContainer}>
         <CustomCarousel reverseDirection />
-        <CustomCarousel />
+        {height > 650 && <CustomCarousel />}
       </div>
-      <div className={style.formWrapper}>
+      <div className={style.formWrapper} style={{ boxShadow }}>
         <div className={style.formContainer}>
-          {/* <input onChange={(e) => setEmail(e.target.value)} value={email} type="text" placeholder="Email" />
-        <input onChange={(e) => setPassword(e.target.value)} value={password} type="password" placeholder="Пароль" />
-        <button type="button" onClick={handleSubmit}>
-          Логин
-        </button> */}
           <FormLogin />
         </div>
       </div>

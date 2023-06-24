@@ -1,15 +1,13 @@
-import { useNavigate } from 'react-router-dom';
 import { theme, Layout } from 'antd';
-import { LoginOutlined } from '@ant-design/icons';
 import { headerHeight } from 'settings/valuesConst';
 import ButtonSearch from './ButtonSearch/ButtonSearch';
+import ButtonAccount from './ButtonAccount/ButtonAccount';
 
 import style from './CustomHeaderV2.module.scss';
 
 const { Header } = Layout;
 
 function CustomHeaderV2() {
-  const navigate = useNavigate();
   const {
     token: { colorBgContainer, controlHeight },
   } = theme.useToken();
@@ -23,10 +21,7 @@ function CustomHeaderV2() {
       }}
     >
       <ButtonSearch />
-      <button type="button" className={style.button} onClick={() => navigate('/login')}>
-        <LoginOutlined className={style.loginIcon} />
-        login
-      </button>
+      <ButtonAccount />
     </Header>
   );
 }

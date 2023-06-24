@@ -2,17 +2,17 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IUser, anonym } from 'models/IUser';
 
 interface IAuthState {
-  isFirstAuth: boolean;
   isFetching: boolean;
   error: string;
+  isInitUser: boolean;
   user: IUser;
   isBadConnection: boolean;
 }
 
 const initialState: IAuthState = {
-  isFirstAuth: true,
   isFetching: false,
   error: '',
+  isInitUser: false,
   user: { ...anonym },
   isBadConnection: false,
 };
@@ -34,14 +34,14 @@ export const authSlice = createSlice({
       state.error = action.payload;
       state.user = anonym;
     },
-    isFirstAuth(state) {
-      state.isFirstAuth = false;
-    },
     isBadConnectionAuth(state) {
       state.isBadConnection = true;
     },
     isGoodConnectionAuth(state) {
       state.isBadConnection = false;
+    },
+    initUserSuccess(state) {
+      state.isInitUser = true;
     },
   },
 });

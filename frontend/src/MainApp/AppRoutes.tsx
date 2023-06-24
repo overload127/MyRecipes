@@ -5,6 +5,7 @@ import withSuspense from 'utils/withSuspense';
 import RequireAuth from 'utils/RequireAuth/RequireAuth';
 import Home from 'pages/Home/Home';
 import LoginGlobal from 'pages/LoginGlobal/LoginGlobal';
+import Shawarma from 'pages/Shawarma/Shawarma';
 
 const Recipes = lazy(() => import('pages/Recipes/Recipes'));
 const RTApp = lazy(() => import('apps/RTApp/RTApp'));
@@ -16,6 +17,7 @@ function AppRoutes(): JSX.Element {
     <Routes>
       <Route element={<RequireAuth />}>
         <Route path="app/*" element={withSuspense(RTApp)} />
+        <Route path="shawarma/*" element={<Shawarma />} />
       </Route>
 
       <Route path="recipes/*" element={withSuspense(Recipes)} />

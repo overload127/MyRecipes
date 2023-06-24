@@ -1,16 +1,20 @@
-.layout {
+.mainContainer {
     height: 100vh;
 
-    .test {
-        display: flex;
-        flex-direction: column;
-        
-        .content {
-            flex-grow: 1;
-        }
-    }
+    .wrap {
+        flex-direction: row;
 
-    .footer {
-        text-align: center;
+        .container {
+            display: flex;
+            flex-direction: column;
+            
+            .content {
+                flex-grow: 1;
+            }
+        }
+
+        .footer {
+            text-align: center;
+        }
     }
 }

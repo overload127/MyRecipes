@@ -3,15 +3,15 @@ import { Tooltip } from 'antd';
 import React from 'react';
 import style from './ThemeColor.module.scss';
 
-type TagProps = {
+interface ITagProps {
   color: string;
   check: boolean;
   className?: string;
   onClick?: () => void;
-};
+}
 
 const Tag = React.forwardRef(
-  ({ color, check, ...rest }: TagProps, ref: React.ForwardedRef<HTMLDivElement>): JSX.Element => {
+  ({ color, check, ...rest }: ITagProps, ref: React.ForwardedRef<HTMLDivElement>): JSX.Element => {
     return (
       <div {...rest} style={{ backgroundColor: color }} ref={ref}>
         {check ? <CheckOutlined /> : ''}
