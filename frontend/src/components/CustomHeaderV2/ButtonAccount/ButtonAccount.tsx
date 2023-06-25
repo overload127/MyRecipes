@@ -36,10 +36,10 @@ const getItems = (dispatch: AppDispatch): MenuProps['items'] => [
 ];
 
 function CustomHeaderV2() {
-  const { isAnonym } = useAppSelector((state) => state.authReducer.user);
+  const { user } = useAppSelector((state) => state.authReducer);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  if (isAnonym)
+  if (user.isAnonym)
     return (
       <button type="button" className={style.container} onClick={() => navigate('/login')}>
         <LoginOutlined className={style.loginIcon} />
@@ -54,7 +54,7 @@ function CustomHeaderV2() {
         <span className={style.wrapperImage}>
           <img src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png" alt="avatar" />
         </span>
-        <span>Serati Ma</span>
+        <span>{user.name || 'безымянный'}</span>
       </Button>
     </Dropdown>
   );

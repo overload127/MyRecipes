@@ -12,7 +12,7 @@ export const loadUserFromLocalStorage = () => async (dispatch: AppDispatch) => {
     dispatch(
       authSlice.actions.authFetchingSuccess({
         id: tokenData.user_id.toString(),
-        email: 'empty',
+        name: tokenData.name,
         isAnonym: false,
       }),
     );
@@ -47,7 +47,7 @@ export const loginAuth =
       dispatch(
         authSlice.actions.authFetchingSuccess({
           id: tokenData.user_id.toString(),
-          email: 'empty',
+          name: tokenData.name,
           isAnonym: false,
         }),
       );
@@ -103,27 +103,6 @@ export const logoutAuth = () => async (dispatch: AppDispatch, getStore: () => Ro
   dispatch(authSlice.actions.authFetchingSuccess(anonym));
   localStorage.removeItem('refresh');
   localStorage.removeItem('access');
-};
-
-export const loginAuthTest = (login: string, password: string, remember: boolean) => async (dispatch: AppDispatch) => {
-  console.log({ login, password, remember });
-  dispatch(authSlice.actions.authFetching());
-  const waitPromise = new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(1);
-    }, 15000);
-  });
-  const accessToken = await waitPromise.then(() => {
-    return 'testToken';
-  });
-  localStorage.setItem('jwt', accessToken);
-  dispatch(
-    authSlice.actions.authFetchingSuccess({
-      id: '0001',
-      email: 'test@mail.ru',
-      isAnonym: false,
-    }),
-  );
 };
 
 export default null;

@@ -1,6 +1,6 @@
 export interface IUser {
   id: string;
-  email: string;
+  name: string;
   isAnonym: boolean;
 }
 
@@ -15,6 +15,6 @@ export interface ITokenData {
 
 export const anonym: IUser = {
   id: 'anonym',
-  email: 'anonym@dels.pro',
+  name: 'anonym',
   isAnonym: true,
 };
