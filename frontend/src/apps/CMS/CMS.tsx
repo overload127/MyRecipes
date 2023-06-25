@@ -5,7 +5,6 @@ import withSuspense from '../../utils/withSuspense';
 
 const Home = lazy(() => import('../../pages/Home/Home'));
 const Info = lazy(() => import('../../pages/Info/Info'));
-const Login = lazy(() => import('../../pages/Login/Login'));
 const Page404 = lazy(() => import('../../pages/Page404/Page404'));
 
 function CMS(): JSX.Element {
@@ -25,7 +24,6 @@ function CMS(): JSX.Element {
       </ol>
       <Routes>
         <Route path="/" element={withSuspense(Home)} />
-        <Route path="/login" element={withSuspense(Login)} />
         <Route path="/info" element={withSuspense(Info)} />
         <Route path="*" element={withSuspense(Page404)} />
       </Routes>

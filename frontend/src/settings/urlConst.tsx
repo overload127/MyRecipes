@@ -1,8 +1,11 @@
 import { theme } from 'antd';
-import Icon, { HomeOutlined } from '@ant-design/icons';
-// import Kebab from './icon/kebab-icon.svg';
+import Icon, { HomeOutlined, UserOutlined } from '@ant-design/icons';
+import PageHome from 'pages/Home/Home';
+import LoginGlobal from 'pages/LoginGlobal/LoginGlobal';
+import LKWrapper from 'pages/LKWrapper/LKWrapper';
+import LKProfile from 'pages/LKProfile/LKProfile';
+import LKSettings from 'pages/LKSettings/LKSettings';
 import Kebab from './icon/kebab';
-import PageHome from '../pages/Home/Home';
 
 // import PageWiki from '../pages/Wiki/Wiki';
 // import PageWikiTP from '../pages/WikiTechCard/WikiTechCardContainer';
@@ -58,7 +61,7 @@ function UseUrlConst(): UrlConstType {
       useInSidebar: true,
       menu: null,
     },
-    PAGE_RECIPES: {
+    PAGE_SHAWARMA: {
       url: '/shawarma',
       title: 'Шаверма',
       permission: PermissionType.PUBLIC,
@@ -68,6 +71,40 @@ function UseUrlConst(): UrlConstType {
       icon: <Icon component={Kebab} style={{ fontSize: token.fontSize * 1.42 }} />,
       useInSidebar: true,
       menu: null,
+    },
+    WRAPPER_LK: {
+      url: '/account',
+      title: 'Аккаунт',
+      permission: PermissionType.PRIVATE,
+      button: false,
+      actionButton: null,
+      component: () => LKWrapper('/center'),
+      icon: <UserOutlined style={{ fontSize: token.fontSize * 1.42 }} />,
+      useInSidebar: true,
+      menu: {
+        PAGE_LK_PROFILE: {
+          url: '/center',
+          title: 'Профиль',
+          permission: PermissionType.PRIVATE,
+          button: false,
+          actionButton: null,
+          component: LKProfile,
+          icon: null,
+          useInSidebar: true,
+          menu: null,
+        },
+        PAGE_LK_SETTINGS: {
+          url: '/settings',
+          title: 'Настройки',
+          permission: PermissionType.PRIVATE,
+          button: false,
+          actionButton: null,
+          component: LKSettings,
+          icon: null,
+          useInSidebar: true,
+          menu: null,
+        },
+      },
     },
     // PAGE_SERVICES: {
     //   url: '/services',
@@ -187,17 +224,17 @@ function UseUrlConst(): UrlConstType {
     //   },
     // },
 
-    // PAGE_LOGIN: {
-    //   url: '/login',
-    //   title: 'Вход',
-    //   permission: PermissionType.GUEST,
-    //   button: false,
-    //   actionButton: null,
-    //   component: PageLogin,
-    //   icon: null,
-    //   useInSidebar: false,
-    //   menu: null,
-    // },
+    PAGE_LOGIN: {
+      url: '/login',
+      title: 'Вход',
+      permission: PermissionType.GUEST,
+      button: false,
+      actionButton: null,
+      component: LoginGlobal,
+      icon: null,
+      useInSidebar: false,
+      menu: null,
+    },
     BUTTON_LOGOUT: {
       url: '',
       title: 'Выход',
@@ -211,25 +248,6 @@ function UseUrlConst(): UrlConstType {
       useInSidebar: false,
       menu: null,
     },
-
-    // PAGE_PUBLIC: {
-    //   url: '/public',
-    //   title: 'Public',
-    //   permission: PermissionType.PUBLIC,
-    //   exact: true,
-    //   component: Pub,
-    //   icon: null,
-    //   menu: null,
-    // },
-    // PAGE_PRIVATE: {
-    //   url: '/private',
-    //   title: 'Private',
-    //   permission: PermissionType.PRIVATE,
-    //   exact: true,
-    //   component: Priv,
-    //   icon: null,
-    //   menu: null,
-    // },
   };
 }
 

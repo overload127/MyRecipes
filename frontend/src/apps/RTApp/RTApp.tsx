@@ -1,15 +1,15 @@
 import { lazy } from 'react';
 import { Routes, Route, NavLink, useNavigate } from 'react-router-dom';
 
-import { useAppDispatch } from '../../hooks/redux';
 import { logoutAuth } from 'store/reducers/auth/ActionCreators';
+import { useAppDispatch } from 'hooks/redux';
 
-import withSuspense from '../../utils/withSuspense';
+import withSuspense from 'utils/withSuspense';
 
-const Page404 = lazy(() => import('../../pages/Page404/Page404'));
-const Map = lazy(() => import('../../pages/Map/Map'));
-const Journal = lazy(() => import('../../pages/Journal/Journal'));
-const RTs = lazy(() => import('../../pages/RTs/RTs'));
+const Page404 = lazy(() => import('pages/Page404/Page404'));
+const Map = lazy(() => import('pages/Map/Map'));
+const Journal = lazy(() => import('pages/Journal/Journal'));
+const RTs = lazy(() => import('pages/RTs/RTs'));
 
 function Dashboard(): JSX.Element {
   const dispatch = useAppDispatch();

@@ -8,7 +8,7 @@ import LayoutAreaExtraTop from 'components/LayoutAreaExtraTop/LayoutAreaExtraTop
 import CustomSettingDrawer from 'components/CustomSettingDrawer/CustomSettingDrawer';
 import Sidebar from 'components/Sidebar/Sidebar';
 import CustomHeaderV2 from 'components/CustomHeaderV2/CustomHeaderV2';
-import AppRoutes from './AppRoutes';
+import AppRoutes from './AppRoutesV2';
 
 import style from './MainApp.module.scss';
 
