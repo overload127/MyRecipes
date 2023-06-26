@@ -1,7 +1,7 @@
 import { Button, Dropdown } from 'antd';
 import type { MenuProps } from 'antd';
 import { LoginOutlined, LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { AppDispatch } from 'store/store';
 import { logoutAuth } from 'store/reducers/auth/ActionCreators';
@@ -12,17 +12,17 @@ const getItems = (dispatch: AppDispatch): MenuProps['items'] => [
   {
     key: '1',
     label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+      <Link to="/account/center">
         <UserOutlined /> Профиль
-      </a>
+      </Link>
     ),
   },
   {
     key: '2',
     label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+      <Link to="/account/settings">
         <SettingOutlined /> Настройки профиля
-      </a>
+      </Link>
     ),
   },
   {

@@ -66,6 +66,9 @@ function renderMenu({ urlTree, isAuth, urlPrefix = '' }: IPropsRenderMenu): JSX.
   return renderTree;
 }
 
+/*
+ * Рисует header с кнопками из urlConst
+ */
 function CustomHeaderV1() {
   const { isAnonym } = useAppSelector((state) => state.authReducer.user);
   const location = useLocation();

@@ -1,0 +1,48 @@
+.container {
+    margin: 24px;
+
+    .info {
+        margin-bottom: 24px;
+
+        .avatarHolder {
+            margin-bottom: 24px;
+            text-align: center;
+          
+            & > img {
+              width: 104px;
+              height: 104px;
+              margin-bottom: 20px;
+            }
+          
+            .name {
+              margin-bottom: 4px;
+              font-weight: 500;
+              font-size: 20px;
+              line-height: 28px;
+            }
+        }
+
+        .socialNetwork {          
+            a {
+                display: flex;
+                align-items: center;
+                margin-bottom: 24px;
+                transition: color 0.3s;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                word-break: break-all;
+
+                .icon {
+                    margin-right: 4px;
+                }
+            }
+        }
+
+        .tagsTitle,
+        .socialTitle {
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+    }
+}

@@ -60,6 +60,9 @@ function createItemFromTree({ urlTree, isAuth, urlPrefix = '' }: IPropsRenderMen
   return items;
 }
 
+/*
+ * Рисует сайдбар с кнопками из urlConst
+ */
 function Sidebar() {
   const { isAnonym } = useAppSelector((state) => state.authReducer.user);
   const [collapsed, setCollapsed] = useState(false);
