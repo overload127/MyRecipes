@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { ITokenData } from 'models/IUser';
+import { ITokenData } from 'models/IAuthUser';
 
 export function parseJwt(token: string): ITokenData {
   const base64Url = token.split('.')[1];

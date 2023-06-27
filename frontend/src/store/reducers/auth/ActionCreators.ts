@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import { AppDispatch, RootState } from 'store/store';
-import { anonym } from 'models/IUser';
+import { anonym } from 'models/IAuthUser';
 import { authAPI } from 'api/api';
 import { parseJwt } from 'utils/other';
 import { authSlice } from './Slice';

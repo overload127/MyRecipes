@@ -1,7 +1,7 @@
 import * as axios from 'axios';
 
 import { authSlice } from 'store/reducers/auth/Slice';
-import { anonym } from 'models/IUser';
+import { anonym } from 'models/IAuthUser';
 
 import store from '../store/store';
 

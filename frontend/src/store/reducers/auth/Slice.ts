@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IUser, anonym } from 'models/IUser';
+import { IAuthUser, anonym } from 'models/IAuthUser';
 
 interface IAuthState {
   isFetching: boolean;
   error: string;
   isInitUser: boolean;
-  user: IUser;
+  user: IAuthUser;
   isBadConnection: boolean;
 }
 
@@ -24,7 +24,7 @@ export const authSlice = createSlice({
     authFetching(state) {
       state.isFetching = true;
     },
-    authFetchingSuccess(state, action: PayloadAction<IUser>) {
+    authFetchingSuccess(state, action: PayloadAction<IAuthUser>) {
       state.isFetching = false;
       state.error = '';
       state.user = action.payload;
