@@ -1,0 +1,28 @@
+.wrap {
+    padding: 16px 0px;
+
+    .container {
+        >:first-child {
+            @media (min-width: 768px) {
+                border-right: solid 1px;
+            }
+        }
+
+        .title {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 28px;
+        }
+    
+        .content {
+            padding: 8px 40px;
+
+            @media (max-width: 767px) {
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+        }
+    }
+}

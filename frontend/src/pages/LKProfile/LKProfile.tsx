@@ -166,13 +166,13 @@ function LKProfile(): JSX.Element {
     setInputValue('');
   };
   return (
-    <Content className={style.container}>
+    <Content>
       <Row gutter={24}>
         <Col lg={7} md={24} sm={24} xs={24}>
           <Card className={style.info} bordered={false}>
             <div>
               <div className={style.avatarHolder}>
-                <img alt="" src={currentUser.avatar} />
+                <img alt="Картинка пользователя" src={currentUser.avatar} />
                 <div className={style.name}>{currentUser.name}</div>
                 <div>{currentUser.signature}</div>
               </div>
