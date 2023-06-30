@@ -5,3 +5,7 @@
   src: local("Roboto"),
       url("./fonts/Roboto-Regular.ttf") format("truetype");
 }
+
+body {
+  overflow-y: hidden;
+}

@@ -26,13 +26,13 @@ function App(): JSX.Element {
         <Layout className={style.wrap}>
           <Sidebar />
           <Layout>
+            <CustomHeaderV2 />
             <Content className={style.container}>
-              <CustomHeaderV2 />
-              <Layout className={style.content}>
+              <div className={style.content}>
                 <AppRoutes />
-              </Layout>
+              </div>
+              <Footer className={style.footer}>©2023</Footer>
             </Content>
-            <Footer className={style.footer}>©2023</Footer>
           </Layout>
         </Layout>
       </Layout>
