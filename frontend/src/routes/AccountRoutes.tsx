@@ -5,20 +5,16 @@ import LKProfile from 'pages/LKProfile/LKProfile';
 import LKSettings from 'pages/LKSettings/LKSettings';
 import Page404 from 'pages/Page404/Page404';
 
-import style from './AccountRoutes.module.scss';
-
 store.dispatch(getDataProfile());
 
 function AccountRoutes(): JSX.Element {
   return (
-    <div className={style.container}>
-      <Routes>
-        <Route path="center/" element={<LKProfile />} />
-        <Route path="settings/*" element={<LKSettings />} />
-        <Route path="/" element={<Navigate to="center/" replace />} />
-        <Route path="*" element={<Page404 />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="center/" element={<LKProfile />} />
+      <Route path="settings/*" element={<LKSettings />} />
+      <Route path="/" element={<Navigate to="center/" replace />} />
+      <Route path="*" element={<Page404 />} />
+    </Routes>
   );
 }
 
