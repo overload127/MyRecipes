@@ -1,6 +1,5 @@
 import { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
-// import { useAppSelector } from 'hooks/redux';
 import withSuspense from 'utils/withSuspense';
 import RequireAuth from 'utils/RequireAuth/RequireAuth';
 import Home from 'pages/Home/Home';
@@ -12,7 +11,6 @@ const AccountRoutes = lazy(() => import('routes/AccountRoutes'));
 const Recipes = lazy(() => import('pages/Recipes/Recipes'));
 
 function AppRoutes(): JSX.Element {
-  // const { user } = useAppSelector((state) => state.authReducer);
   return (
     <Routes>
       <Route element={<RequireAuth />}>

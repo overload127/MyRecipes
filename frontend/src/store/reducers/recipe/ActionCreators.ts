@@ -8,12 +8,12 @@ export const loadData = (page: number, isDesc: boolean, perPage: number) => asyn
   dispatch(recipeSlice.actions.startFetching());
   try {
     const result = await recipeAPI.loadPageData(page, isDesc, perPage);
-    const recipes: IRecipeResponse[] = result.data.payload.recipes.map((item) => ({ ...item }));
+    const recipes: IRecipeResponse[] = result.data.recipes.map((item) => ({ ...item }));
     dispatch(recipeSlice.actions.loadSuccess(recipes));
     const parameters: IParameters = {
-      currentPage: result.data.payload.page,
-      isDesc: Boolean(result.data.payload.is_desc),
-      total: result.data.payload.total,
+      currentPage: result.data.page,
+      isDesc: Boolean(result.data.is_desc),
+      total: result.data.total,
     };
     dispatch(recipeSlice.actions.setParameters(parameters));
   } catch (e) {
