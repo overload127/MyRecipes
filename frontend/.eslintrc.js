@@ -34,6 +34,7 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'react', 'prettier', 'import', 'react-hooks', 'eslint-plugin-json'],
   rules: {
+    'import/no-extraneous-dependencies': 'off',
     'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['state'] }],
     'require-jsdoc': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
