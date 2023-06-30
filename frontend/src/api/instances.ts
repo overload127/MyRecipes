@@ -58,6 +58,7 @@ instancePrivate.interceptors.response.use(
           });
           localStorage.setItem('access', response.data.access);
           localStorage.setItem('refresh', response.data.refresh);
+          originalConfig.refreshIsOk = true;
           // Retry the original request with the new access token
           originalConfig.headers.Authorization = `Bearer ${response.data.access}`;
           return await axios.default.request(originalConfig);
@@ -65,9 +66,11 @@ instancePrivate.interceptors.response.use(
           console.error(refreshError);
         }
       }
-      localStorage.removeItem('refresh');
-      localStorage.removeItem('access');
-      store.dispatch(authSlice.actions.authFetchingSuccess(anonym));
+      if (!originalConfig.refreshIsOk) {
+        localStorage.removeItem('refresh');
+        localStorage.removeItem('access');
+        store.dispatch(authSlice.actions.authFetchingSuccess(anonym));
+      }
     }
 
     // Убрал чтобы не мешал. Но вдруг понадобится?
