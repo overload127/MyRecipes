@@ -15,7 +15,6 @@ import secrets_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-UPLOAD_DIR = BASE_DIR.joinpath('upload')
 
 
 # Quick-start development settings - unsuitable for production
@@ -53,6 +52,7 @@ INSTALLED_APPS += [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    'phonenumber_field',
     'djoser',
     'django_filters',
     'corsheaders',
@@ -60,6 +60,7 @@ INSTALLED_APPS += [
     'core',
     'recipes',
     'admin_honeypot',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
@@ -159,6 +160,10 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR.joinpath('static')
 
+# Media
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR.joinpath('media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -185,3 +190,38 @@ DJOSER = {
 }
 
 SIMPLE_JWT = secrets_settings.SIMPLE_JWT
+
+# logging setting
+LOGGING_ROOT = BASE_DIR.joinpath('logging')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            'datefmt': '%d/%b/%Y %H:%M:%S',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': LOGGING_ROOT.joinpath('api_backend.log'),
+            'formatter': 'simple',
+            'when': 'D',
+            'interval': 1,
+            'backupCount': 0,
+            'encoding': 'UTF-8',
+            'delay': False,
+            'utc': False,
+        },
+    },
+    'loggers': {
+        'api_img_resize.views': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
