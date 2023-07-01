@@ -4,10 +4,13 @@ from django.utils.translation import gettext as _
 
 from phonenumber_field.modelfields import PhoneNumberField
 
-from core.fields import WEBPField
+from core.fields import WEBPField, AutoOneToOneField
 
 
 class Profile(models.Model):
+    """
+    Note: Not call Profile never. Only from user by related field. Request for field AutoOneToOneField
+    """
     GENDER_MALE = 0
     GENDER_MALE = 1
     GENDER_FEMALE = 2
@@ -17,7 +20,7 @@ class Profile(models.Model):
         (GENDER_FEMALE, _("Female")),
     ]
 
-    user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
+    user = AutoOneToOneField(User, related_name="profile", on_delete=models.CASCADE)
     avatar = WEBPField(upload_to="profiles/avatars/", null=True, blank=True)
     birthday = models.DateField(null=True, blank=True)
     gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES, default=0)

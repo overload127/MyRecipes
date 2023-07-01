@@ -8,9 +8,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.permissions import IsAuthenticated
 
-from PIL import Image
 from backend.settings import BASE_DIR, MEDIA_URL
-from core.models import Profile
 from core.serializers import ProfileSerializerFull, ProfileSerializerBase, ProfileAvatarSerializer
 
 
@@ -30,7 +28,7 @@ def upload_avatar_profile(request):
         serializer.is_valid(raise_exception=True)
 
         try:
-            current_profile = Profile.objects.get(user=request.user)
+            current_profile = request.user.profile
             current_profile.avatar = serializer.validated_data['avatar']
             current_profile.save()
         except Exception as e:
@@ -42,7 +40,7 @@ def upload_avatar_profile(request):
 
     elif request.method == 'DELETE':
         try:
-            current_profile = Profile.objects.get(user=request.user)
+            current_profile = request.user.profile
             current_profile.avatar = None
             current_profile.save()
         except Exception as e:
@@ -55,7 +53,7 @@ def upload_avatar_profile(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_data_profile(request):
-    current_profile = Profile.objects.get(user=request.user)
+    current_profile = request.user.profile
     data = {
         'id': request.user.id,
         'username': request.user.username,
@@ -97,7 +95,7 @@ def update_base_data_profile(request):
         return Response({'error': 'Error processing update data'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     try:
-        current_profile = Profile.objects.get(user=request.user)
+        current_profile = request.user.profile
         current_profile.birthday = serializer.data['birthday']
         current_profile.gender = serializer.data['gender']
         current_profile.phone = serializer.data['phone']
