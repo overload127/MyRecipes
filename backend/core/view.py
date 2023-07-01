@@ -27,8 +27,7 @@ AVATARS_URL = f'{MEDIA_URL}/avatar'
 def upload_avatar_profile(request):
     if request.method == 'PATCH':
         serializer = ProfileAvatarSerializer(data=request.data, context={"request": request} if settings.DEBUG else {})
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
 
         try:
             current_profile = Profile.objects.get(user=request.user)
@@ -38,12 +37,8 @@ def upload_avatar_profile(request):
             logger.error(f'Failed save to db.\nError is {e}')
             return Response({'error': 'Error processing avatar file'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        out_serializer = ProfileAvatarSerializer(data={'avatar': current_profile.avatar}, context={"request": request} if settings.DEBUG else {})
-        if out_serializer.is_valid():
-            return Response(out_serializer.data, status=status.HTTP_200_OK)
-
-        logger.error(f'Failed get avatar from db.\nError is {e}')
-        return Response({'error': 'Error processing avatar file'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        out_serializer = ProfileAvatarSerializer({'avatar': current_profile.avatar}, context={"request": request} if settings.DEBUG else {})
+        return Response(out_serializer.data, status=status.HTTP_200_OK)
 
     elif request.method == 'DELETE':
         try:
@@ -54,7 +49,7 @@ def upload_avatar_profile(request):
             logger.error(f'Failed save to db.\nError is {e}')
             return Response({'error': 'Error processing avatar file'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        return Response({'success': True})
+        return Response({}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -82,19 +77,15 @@ def get_data_profile(request):
     if current_profile.phone:
         data['phone'] = current_profile.phone
 
-    serializer = ProfileSerializerFull(data=data, context={"request": request} if settings.DEBUG else {})
-    if serializer.is_valid():
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    return Response(serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    serializer = ProfileSerializerFull(data, context={"request": request} if settings.DEBUG else {})
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
 def update_base_data_profile(request):
     serializer = ProfileSerializerBase(data=request.data)
-    if not serializer.is_valid():
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer.is_valid(raise_exception=True)
 
     user = request.user
     try:
