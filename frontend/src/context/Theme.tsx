@@ -1,6 +1,8 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import { useState, createContext, Dispatch, SetStateAction } from 'react';
 import { ConfigProvider, theme } from 'antd';
+import locale from 'antd/locale/ru_RU';
+import 'dayjs/locale/ru';
 
 export const colorList = {
   techBlue: '#1677FF',
@@ -75,6 +77,7 @@ export function ThemeProvider({ children }: IProps) {
           },
           algorithm: currentAlgo,
         }}
+        locale={locale}
       >
         {children}
       </ConfigProvider>
