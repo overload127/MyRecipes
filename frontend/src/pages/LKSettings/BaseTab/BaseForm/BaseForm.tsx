@@ -56,7 +56,6 @@ function Base(): JSX.Element {
     });
   }, [user, form]);
   const onFinish = ({ firstName, lastName, birthday, gender, phoneNumber }: FormDataType) => {
-    // console.log({ firstName, lastName, birthday, gender, phoneNumber });
     const stringDate = birthday ? birthday.format(dateFormat) : null;
     dispatch(updateBaseDataProfile(firstName, lastName, stringDate, gender, phoneNumber));
   };
@@ -101,7 +100,7 @@ function Base(): JSX.Element {
           icon: <InfoCircleOutlined />,
         }}
       >
-        <DatePicker format={dateFormat} placeholder={new Date().toLocaleDateString('ru')} />
+        <DatePicker format={dateFormat} placeholder={dayjs(new Date()).format(dateFormat)} />
       </Form.Item>
 
       <Form.Item
@@ -126,10 +125,11 @@ function Base(): JSX.Element {
           {
             // @ts-ignore
             validator(rule, value) {
-              console.log(rule);
               return new Promise((resolve, reject) => {
                 const phoneNumber = parsePhoneNumber(value);
-                if (phoneNumber?.isValid()) {
+                if (value === '') {
+                  resolve(value);
+                } else if (phoneNumber?.isValid()) {
                   resolve(value);
                 } else {
                   // eslint-disable-next-line prefer-promise-reject-errors
