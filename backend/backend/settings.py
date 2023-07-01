@@ -225,3 +225,14 @@ LOGGING = {
         },
     },
 }
+
+# image settings
+WHITELISTED_IMAGE_TYPES = {
+    'jpeg': 'image/jpeg',
+    'jpg': 'image/jpeg',
+    'png': 'image/png',
+    'bmp': 'image/bmp',
+    'webp': 'image/webp',
+}
+
+UPLOAD_FILE_MAX_SIZE = 1024 * 1024 * 2
