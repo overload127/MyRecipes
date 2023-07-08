@@ -15,7 +15,6 @@ from django.conf import settings
 
 
 class WEBPFieldFile(ImageFieldFile):
-
     def save(self, name, content, save=True):
         content.file.seek(0)
         image = Image.open(content.file)
@@ -24,12 +23,14 @@ class WEBPFieldFile(ImageFieldFile):
         image_content_file = ContentFile(content=image_bytes.getvalue())
 
         salt = sha1(
-            str(random.random()).encode(encoding='UTF-8', errors='strict')
-            ).hexdigest()[:5]
-        fname = sha1((salt + settings.SECRET_KEY).encode(encoding='UTF-8', errors='strict')).hexdigest()
+            str(random.random()).encode(encoding="UTF-8", errors="strict")
+        ).hexdigest()[:5]
+        fname = sha1(
+            (salt + settings.SECRET_KEY).encode(encoding="UTF-8", errors="strict")
+        ).hexdigest()
 
         filename = Path(fname)
-        filename_replace_ext = filename.with_suffix('.webp')
+        filename_replace_ext = filename.with_suffix(".webp")
         super().save(filename_replace_ext, image_content_file, save)
 
 
@@ -42,12 +43,11 @@ class WEBPField(models.ImageField):
 class AutoSingleRelatedObjectDescriptor(ReverseOneToOneDescriptor):
     @atomic
     def __get__(self, instance, instance_type=None):
-        model = getattr(self.related, 'related_model', self.related.model)
+        model = getattr(self.related, "related_model", self.related.model)
 
         try:
-            return (
-                super(AutoSingleRelatedObjectDescriptor, self)
-                .__get__(instance, instance_type)
+            return super(AutoSingleRelatedObjectDescriptor, self).__get__(
+                instance, instance_type
             )
         except model.DoesNotExist:
             # Using get_or_create instead() of save() or create() as it better handles race conditions
@@ -61,14 +61,14 @@ class AutoSingleRelatedObjectDescriptor(ReverseOneToOneDescriptor):
 
 
 class AutoOneToOneField(models.OneToOneField):
-    '''
+    """
     OneToOneField, которое создает зависимый объект при первом обращении
     из родительского, если он еще не создан.
-    '''
+    """
+
     def contribute_to_related_class(self, cls, related):
         setattr(
-            cls,
-            related.get_accessor_name(),
-            AutoSingleRelatedObjectDescriptor(related))
+            cls, related.get_accessor_name(), AutoSingleRelatedObjectDescriptor(related)
+        )
         # if not cls._meta.one_to_one_field:
         #     cls._meta.one_to_one_field = self

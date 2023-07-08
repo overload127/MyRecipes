@@ -20,24 +20,31 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
-    TokenBlacklistView
+    TokenBlacklistView,
 )
 
 
 urlpatterns = [
-    path('inner/grappelli/', include('grappelli.urls')),
-    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
-    path('inner/boss_admin/', admin.site.urls),
-    path('api/v1/auth/', include('djoser.urls')),
-    path('api/v1/auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/v1/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/v1/auth/token/logout/', TokenBlacklistView.as_view(), name='token_blacklist'),
-    path('api/v1/core/', include(('core.urls', 'core'), namespace='core')),
+    path("inner/grappelli/", include("grappelli.urls")),
+    path("admin/", include("admin_honeypot.urls", namespace="admin_honeypot")),
+    path("inner/boss_admin/", admin.site.urls),
+    path("api/v1/auth/", include("djoser.urls")),
+    path("api/v1/auth/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path(
+        "api/v1/auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"
+    ),
+    path(
+        "api/v1/auth/token/logout/",
+        TokenBlacklistView.as_view(),
+        name="token_blacklist",
+    ),
+    path("api/v1/core/", include(("core.urls", "core"), namespace="core")),
 ]
 
 if settings.DEBUG:
     from django.conf.urls.static import static
     import debug_toolbar
-    urlpatterns.append(path('__debug__/', include(debug_toolbar.urls)))
+
+    urlpatterns.append(path("__debug__/", include(debug_toolbar.urls)))
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -11,6 +11,7 @@ class Profile(models.Model):
     """
     Note: Not call Profile never. Only from user by related field. Request for field AutoOneToOneField
     """
+
     GENDER_MALE = 0
     GENDER_MALE = 1
     GENDER_FEMALE = 2
@@ -30,8 +31,8 @@ class Profile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = _('Profile')
-        verbose_name_plural = _('Profiles')
+        verbose_name = _("Profile")
+        verbose_name_plural = _("Profiles")
 
     def __str__(self):
         return self.user.username
