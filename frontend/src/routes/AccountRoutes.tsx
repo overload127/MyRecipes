@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import store from 'store/store';
-import { getDataProfile } from 'store/reducers/user/ActionCreators';
+import { getDataProfile } from 'store/reducers/profile/ActionCreators';
 import LKProfile from 'pages/LKProfile/LKProfile';
 import LKSettings from 'pages/LKSettings/LKSettings';
 import Page404 from 'pages/Page404/Page404';

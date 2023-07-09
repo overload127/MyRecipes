@@ -4,7 +4,7 @@ import type { MenuProps } from 'antd/es/menu';
 import { ThemeContext } from 'context/Theme';
 import BaseTab from './BaseTab/BaseTab';
 import Security from './Security/Security';
-import SocialNetwork from './SocialNetwork/SocialNetwork';
+import SocialNetworkForm from './SocialNetworkForm/SocialNetworkForm';
 
 import style from './LKSettings.module.scss';
 
@@ -30,7 +30,7 @@ const urlConstTree: UrlConstAccountType = {
   SOCIAL_NETWORK: {
     url: 'SOCIAL_NETWORK',
     label: 'Привязка соцсетей',
-    component: SocialNetwork,
+    component: SocialNetworkForm,
   },
 };
 

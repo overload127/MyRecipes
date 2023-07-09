@@ -3,12 +3,11 @@ import type { UploadProps } from 'antd';
 import { UploadOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
 import { toast } from 'react-toastify';
-import parsePhoneNumber, { isPossiblePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
 import { useAppSelector, useAppDispatch } from 'hooks/redux';
-import { deleteAvatarProfile, updateAvatarProfile } from 'store/reducers/user/ActionCreators';
-import NoneImage from './none.jpeg';
+import { deleteAvatarProfile, updateAvatarProfile } from 'store/reducers/profile/ActionCreators';
+import { IMAGES } from 'utils/LoadDefaultImages/LoadDefaultImages';
 
-import BaseForm from './BaseForm/BaseForm';
+import BaseAccountForm from './BaseAccountForm/BaseAccountForm';
 import style from './BaseTab.module.scss';
 
 const { Text } = Typography;
@@ -16,7 +15,7 @@ const { Text } = Typography;
 function Base(): JSX.Element {
   const {
     isFetching,
-    user: { urlAvatar },
+    profile: { urlAvatar },
   } = useAppSelector((state) => state.userReducer);
 
   const dispatch = useAppDispatch();
@@ -70,21 +69,13 @@ function Base(): JSX.Element {
     <Spin spinning={isFetching} tip="обновляем данные ...">
       <div className={style.container}>
         <div className={style.formWrapper}>
-          <BaseForm />
-          <Button
-            onClick={() => {
-              const testString = ' +7 952 333 33 33 33 33 33 ';
-              console.log(parsePhoneNumber(testString, 'RU'));
-              console.log(isPossiblePhoneNumber(testString, 'RU'));
-              console.log(isValidPhoneNumber(testString, 'RU'));
-            }}
-          />
+          <BaseAccountForm />
         </div>
 
         <div className={style.avatar}>
           <Text className={style.title}>Avatar</Text>
           <div className={style.picture}>
-            <img alt="Картинка пользователя" src={urlAvatar || NoneImage} />
+            <img alt="Картинка пользователя" src={urlAvatar || IMAGES.noneProfileAvatar} />
           </div>
 
           <div className={style.buttonView}>

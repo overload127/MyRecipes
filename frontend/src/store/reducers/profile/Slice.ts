@@ -1,16 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IUser } from 'models/store/IUser';
+import { IProfile } from 'models/store/IProfile';
 
-interface IUserState {
+interface IProfileState {
   isFetching: boolean;
   error: string;
-  user: IUser;
+  profile: IProfile;
 }
 
-const initialState: IUserState = {
+const initialState: IProfileState = {
   isFetching: false,
   error: '',
-  user: {
+  profile: {
     id: '',
     username: '',
     firstName: '',
@@ -20,6 +20,8 @@ const initialState: IUserState = {
     birthday: '',
     gender: 0,
     phone: '',
+    socialNetworks: [],
+    tags: [],
   },
 };
 
@@ -30,15 +32,15 @@ export const userSlice = createSlice({
     userFetching(state) {
       state.isFetching = true;
     },
-    userFetchingSuccess(state, action: PayloadAction<IUser>) {
+    userFetchingSuccess(state, action: PayloadAction<IProfile>) {
       state.isFetching = false;
       state.error = '';
-      state.user = action.payload;
+      state.profile = action.payload;
     },
     userFetchingPhotoSuccess(state, action: PayloadAction<string | null>) {
       state.isFetching = false;
       state.error = '';
-      state.user.urlAvatar = action.payload;
+      state.profile.urlAvatar = action.payload;
     },
     userFetchingError(state, action: PayloadAction<string>) {
       state.isFetching = false;

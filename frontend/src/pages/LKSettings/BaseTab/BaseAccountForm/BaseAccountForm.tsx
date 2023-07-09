@@ -4,7 +4,7 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 import dayjs, { Dayjs } from 'dayjs';
 import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { updateBaseDataProfile } from 'store/reducers/user/ActionCreators';
+import { updateBaseDataProfile } from 'store/reducers/profile/ActionCreators';
 import PhoneNumberInput from 'components/PhoneNumberInput/PhoneNumberInput';
 import { parsePhoneNumber, formatPhoneNumberIntl } from 'react-phone-number-input';
 
@@ -37,24 +37,23 @@ const onFinishFailed = (errorInfo: any) => {
   });
 };
 
-function Base(): JSX.Element {
-  const { isFetching, user } = useAppSelector((state) => state.userReducer);
+function BaseAccountForm(): JSX.Element {
+  const { isFetching, profile } = useAppSelector((state) => state.userReducer);
   const [form] = Form.useForm<FormDataType>();
   const dispatch = useAppDispatch();
   useEffect(() => {
-    const currentPhone = user.phone || '';
+    const currentPhone = profile.phone || '';
     const parsed = parsePhoneNumber(currentPhone, 'RU');
     let resultValue = parsed && formatPhoneNumberIntl(currentPhone);
     if (resultValue === undefined) resultValue = '';
     form.setFieldsValue({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      birthday: (user.birthday && dayjs(user.birthday, dateFormat)) || '',
-      gender: user.gender,
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      birthday: (profile.birthday && dayjs(profile.birthday, dateFormat)) || '',
+      gender: profile.gender,
       phoneNumber: resultValue,
-      // phoneNumber: user.phone || '',
     });
-  }, [user, form]);
+  }, [profile, form]);
   const onFinish = ({ firstName, lastName, birthday, gender, phoneNumber }: FormDataType) => {
     const stringDate = birthday ? birthday.format(dateFormat) : null;
     dispatch(updateBaseDataProfile(firstName, lastName, stringDate, gender, phoneNumber));
@@ -153,4 +152,4 @@ function Base(): JSX.Element {
   );
 }
 
-export default Base;
+export default BaseAccountForm;

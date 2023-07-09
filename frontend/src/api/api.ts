@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios';
 import { IRecipesPageResponse } from 'models/response/RecipeResponse';
 import { IAuthResponse } from 'models/response/AuthResponse';
 import { IProfileResponse } from 'models/response/ProfileResponse';
+import { IProfileSocialNetworksRequest } from 'models/request/ProfileRequest';
 import { instancePublic, instancePrivate } from './instances';
 
 export const authAPI = {
@@ -42,7 +43,7 @@ export const testPrivateAPI = {
   },
 };
 
-export const userAPI = {
+export const profileAPI = {
   async getDataProfile(): Promise<AxiosResponse<IProfileResponse>> {
     return instancePrivate.get<IProfileResponse>('/core/profile/', {});
   },
@@ -64,14 +65,21 @@ export const userAPI = {
     birthday: string | null,
     gender: number,
     phoneNumber: string,
-  ): Promise<AxiosResponse> {
-    return instancePrivate.patch('/core/profile/update-base/', {
+  ): Promise<AxiosResponse<IProfileResponse>> {
+    return instancePrivate.patch<IProfileResponse>('/core/profile/update-base/', {
       id,
       first_name: firstName,
       last_name: lastName,
       birthday,
       gender,
       phone: phoneNumber,
+    });
+  },
+  async updateProfileSocialNetworks(
+    socialNetworksData: IProfileSocialNetworksRequest,
+  ): Promise<AxiosResponse<IProfileResponse>> {
+    return instancePrivate.patch<IProfileResponse>('/core/profile/update-social-networks/', {
+      ...socialNetworksData,
     });
   },
 };

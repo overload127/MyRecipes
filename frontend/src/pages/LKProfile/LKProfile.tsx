@@ -16,15 +16,13 @@ import {
   IconBrandWhatsapp,
   IconWorldQuestion,
 } from '@tabler/icons-react';
+import { useAppSelector } from 'hooks/redux';
+import { TagType } from 'models/store/IProfile';
+import { IMAGES } from 'utils/LoadDefaultImages/LoadDefaultImages';
 
 import style from './LKProfile.module.scss';
 
 const { Content } = Layout;
-
-type TagType = {
-  key: string;
-  label: string;
-};
 
 type SocialNetworkMetaDataType = {
   name: string;
@@ -96,49 +94,12 @@ function getSocialNetworkMetaData(key: string): SocialNetworkMetaDataType {
   }
 }
 
-type SocialNetworkType = {
-  id: number;
-  url: string;
-  type: string;
-};
-
-type UserType = {
-  avatar: string;
-  name: string;
-  signature: string;
-  tags: TagType[];
-  socialNetwork: SocialNetworkType[];
-};
-
-const currentUser: UserType = {
-  avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',
-  name: 'Василий',
-  signature: '',
-  tags: [],
-  socialNetwork: [
-    {
-      id: 0,
-      url: 'https://vk.com/',
-      type: 'vk',
-    },
-    {
-      id: 1,
-      url: 'https://vk.com/',
-      type: 'pinterest',
-    },
-    {
-      id: 2,
-      url: 'https://vk.com/',
-      type: 'pintdsafdsferest',
-    },
-  ],
-};
-
 function LKProfile(): JSX.Element {
   const [inputVisible, setInputVisible] = useState(false);
   const [newTags, setNewTags] = useState<TagType[]>([]);
   const [inputValue, setInputValue] = useState('');
   const inputRef = useRef<InputRef>(null);
+  const { profile } = useAppSelector((state) => state.userReducer);
 
   const {
     token: { colorTextLabel, controlHeight },
@@ -172,14 +133,14 @@ function LKProfile(): JSX.Element {
           <Card className={style.info} bordered={false}>
             <div>
               <div className={style.avatarHolder}>
-                <img alt="Картинка пользователя" src={currentUser.avatar} />
-                <div className={style.name}>{currentUser.name}</div>
-                <div>{currentUser.signature}</div>
+                <img alt="Картинка пользователя" src={profile.urlAvatar || IMAGES.noneProfileAvatar} />
+                <div className={style.name}>{profile.firstName}</div>
+                <div>''</div>
               </div>
               <Divider dashed />
               <div className={style.tags}>
                 <div className={style.tagsTitle}>Тэги</div>
-                {currentUser.tags.concat(newTags).map((item) => (
+                {profile.tags.concat(newTags).map((item) => (
                   <Tag key={item.key}>{item.label}</Tag>
                 ))}
                 {inputVisible && (
@@ -211,7 +172,7 @@ function LKProfile(): JSX.Element {
                       },
                     }}
                   >
-                    {currentUser.socialNetwork.map((item) => (
+                    {profile.socialNetworks.map((item) => (
                       <Col key={item.id} lg={24} xl={24}>
                         <a href={item.url} style={{ marginBottom: controlHeight * 0.75 }}>
                           <span className={style.icon}>{getSocialNetworkMetaData(item.type).icon}</span> {item.url}
