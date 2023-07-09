@@ -135,7 +135,7 @@ function LKProfile(): JSX.Element {
               <div className={style.avatarHolder}>
                 <img alt="Картинка пользователя" src={profile.urlAvatar || IMAGES.noneProfileAvatar} />
                 <div className={style.name}>{profile.firstName}</div>
-                <div>''</div>
+                <div>Подпись</div>
               </div>
               <Divider dashed />
               <div className={style.tags}>
@@ -172,13 +172,15 @@ function LKProfile(): JSX.Element {
                       },
                     }}
                   >
-                    {profile.socialNetworks.map((item) => (
-                      <Col key={item.id} lg={24} xl={24}>
-                        <a href={item.url} style={{ marginBottom: controlHeight * 0.75 }}>
-                          <span className={style.icon}>{getSocialNetworkMetaData(item.type).icon}</span> {item.url}
-                        </a>
-                      </Col>
-                    ))}
+                    {profile.socialNetworks
+                      .filter((item) => item.url.length > 0)
+                      .map((item) => (
+                        <Col key={item.id} lg={24} xl={24}>
+                          <a href={item.url} style={{ marginBottom: controlHeight * 0.75 }}>
+                            <span className={style.icon}>{getSocialNetworkMetaData(item.type).icon}</span> {item.url}
+                          </a>
+                        </Col>
+                      ))}
                   </ConfigProvider>
                 </Row>
               </div>
