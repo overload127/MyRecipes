@@ -37,6 +37,7 @@ const getItems = (dispatch: AppDispatch): MenuProps['items'] => [
 
 function CustomHeaderV2() {
   const { user } = useAppSelector((state) => state.authReducer);
+  const { firstName } = useAppSelector((state) => state.userReducer.profile);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   if (user.isAnonym)
@@ -54,7 +55,7 @@ function CustomHeaderV2() {
         <span className={style.wrapperImage}>
           <img src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png" alt="avatar" />
         </span>
-        <span>{user.name || 'безымянный'}</span>
+        <span>{firstName || user.name || 'безымянный'}</span>
       </Button>
     </Dropdown>
   );
