@@ -14,6 +14,7 @@ from core.serializers import (
     ProfileSerializerBase,
     ProfileAvatarSerializer,
     ProfileFullSerializer,
+    ProfileSocialNetworksSerializer,
 )
 
 
@@ -29,7 +30,10 @@ class ProfileDetail(APIView):
 
     def get(self, request):
         current_profile = request.user.profile
-        serializer = ProfileFullSerializer(current_profile)
+        serializer = ProfileFullSerializer(
+            current_profile,
+            context={"request": request} if settings.DEBUG else {},
+        )
         return Response(serializer.data)
 
 
@@ -106,4 +110,32 @@ def update_base_data_profile(request):
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
 
+    serializer = ProfileFullSerializer(
+        current_profile,
+        context={"request": request} if settings.DEBUG else {},
+    )
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ProfileSocialNetworks(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request):
+        current_profile = request.user.profile
+        serializer = ProfileSocialNetworksSerializer(current_profile, data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            serializer.save()
+        except Exception as e:
+            logger.error(f"Failed save to db.\nError is {e}")
+            return Response(
+                {"error": "Error processing avatar file"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+        serializer = ProfileFullSerializer(
+            current_profile,
+            context={"request": request} if settings.DEBUG else {},
+        )
+        return Response(serializer.data, status=status.HTTP_200_OK)

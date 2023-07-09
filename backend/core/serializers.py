@@ -86,3 +86,11 @@ class ProfileSerializerBase(serializers.Serializer):
     birthday = serializers.DateField(allow_null=True)
     gender = serializers.IntegerField()
     phone = PhoneNumberField(allow_blank=True)
+
+
+class ProfileSocialNetworksSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = [
+            "id",
+        ] + Profile.social_fields
