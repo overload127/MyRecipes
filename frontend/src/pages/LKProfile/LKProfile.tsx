@@ -128,7 +128,7 @@ function LKProfile(): JSX.Element {
   };
   return (
     <Content>
-      <Row gutter={24}>
+      <Row gutter={{ xs: 1, sm: 1, md: 1, lg: 24 }}>
         <Col lg={7} md={24} sm={24} xs={24}>
           <Card className={style.info} bordered={false}>
             <div>
