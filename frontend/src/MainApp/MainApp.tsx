@@ -8,7 +8,7 @@ import LayoutAreaExtraTop from 'components/LayoutAreaExtraTop/LayoutAreaExtraTop
 import CustomSettingDrawer from 'components/CustomSettingDrawer/CustomSettingDrawer';
 import Sidebar from 'components/Sidebar/Sidebar';
 import CustomHeaderV2 from 'components/CustomHeaderV2/CustomHeaderV2';
-import AppRoutes from '../routes/AppRoutes';
+import GlobalRoutes from 'routes/GlobalRoutes';
 
 import style from './MainApp.module.scss';
 
@@ -29,7 +29,7 @@ function App(): JSX.Element {
             <CustomHeaderV2 />
             <Content className={style.container}>
               <div className={style.content}>
-                <AppRoutes />
+                <GlobalRoutes />
               </div>
               <Footer className={style.footer}>©2023</Footer>
             </Content>

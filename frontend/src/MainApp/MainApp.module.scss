@@ -12,11 +12,6 @@
             
             .content {
                 flex-grow: 1;
-                margin: 24px;
-
-                @media (max-width: 767px) {
-                    margin: 8px;
-                }
             }
         }
 
