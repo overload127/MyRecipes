@@ -11,6 +11,7 @@ import style from './Sidebar.module.scss';
 
 const { Header, Sider } = Layout;
 const { Title } = Typography;
+const { useToken } = theme;
 type MenuItem = Required<MenuProps>['items'][number];
 
 interface IPropsRenderMenu {
@@ -72,7 +73,7 @@ function Sidebar() {
   const urlConst = UseUrlConst();
   const {
     token: { colorBgContainer, colorPrimary, controlHeight, boxShadow },
-  } = theme.useToken();
+  } = useToken();
   const items = useMemo(
     () => createItemFromTree({ urlTree: urlConst, isAuth: !isAnonym, urlPrefix: '' }),
     [isAnonym, urlConst],

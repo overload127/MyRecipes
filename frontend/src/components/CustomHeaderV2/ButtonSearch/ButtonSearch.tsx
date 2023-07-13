@@ -5,11 +5,13 @@ import { headerHeight } from 'settings/valuesConst';
 
 import style from './ButtonSearch.module.scss';
 
+const { useToken } = theme;
+
 function ButtonSearch() {
   const [useInput, setUseInput] = useState(false);
   const {
     token: { controlHeight, fontSize },
-  } = theme.useToken();
+  } = useToken();
   return (
     <form className={style.container}>
       <button

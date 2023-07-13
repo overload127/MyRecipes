@@ -43,13 +43,14 @@ const menuItems: MenuProps['items'] = Object.keys(urlConstTree).map((item) => ({
 
 const { Text } = Typography;
 const { useBreakpoint } = Grid;
+const { useToken } = theme;
 
 function LKSettings(): JSX.Element {
   const [currentTab, setCurrentTab] = useState<TypeUrlConstTree>('BASE_TAB');
   const { isDarkMode } = useContext(ThemeContext);
   const {
     token: { colorBgContainer, colorBorder },
-  } = theme.useToken();
+  } = useToken();
   const handleClick = ({ key }: { key: string }) => {
     if (currentTab !== key) {
       setCurrentTab(key as TypeUrlConstTree);

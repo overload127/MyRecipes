@@ -5,12 +5,13 @@ import ButtonAccount from './ButtonAccount/ButtonAccount';
 
 import style from './CustomHeaderV2.module.scss';
 
+const { useToken } = theme;
 const { Header } = Layout;
 
 function CustomHeaderV2() {
   const {
     token: { colorBgContainer, controlHeight },
-  } = theme.useToken();
+  } = useToken();
   return (
     <Header
       className={style.container}
