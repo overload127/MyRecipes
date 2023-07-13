@@ -18,8 +18,6 @@ const customIcons: Record<number, React.ReactNode> = {
   5: <SmileOutlined />,
 };
 
-const selectIcon = ({ index }: { index: number }) => customIcons[index + 1];
-
 interface IProps {
   reverseDirection?: boolean;
 }
@@ -107,11 +105,11 @@ function CustomCarousel({ reverseDirection }: IProps) {
           slidesPerView: 1,
           spaceBetween: 20,
         },
-        900: {
+        1100: {
           slidesPerView: 2,
           spaceBetween: 20,
         },
-        1400: {
+        1500: {
           slidesPerView: 3,
           spaceBetween: 40,
         },
@@ -136,8 +134,7 @@ function CustomCarousel({ reverseDirection }: IProps) {
                 <br className={style.line} />
                 <div className={style.content}>
                   <div className={style.rating}>
-                    {/* @ts-ignore */}
-                    <Rate value={recipe.rating} character={selectIcon} disabled />
+                    <Rate allowHalf value={recipe.rating} character={({ index }) => customIcons[index! + 1]} disabled />
                   </div>
                   <div className={style.author}>Автор: {recipe.author_name}</div>
                 </div>
