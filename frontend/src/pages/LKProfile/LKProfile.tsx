@@ -18,11 +18,13 @@ import {
 } from '@tabler/icons-react';
 import { useAppSelector } from 'hooks/redux';
 import { TagType } from 'models/store/IProfile';
+import RecipeList from 'components/RecipeList/RecipeList';
 import { IMAGES } from 'utils/LoadDefaultImages/LoadDefaultImages';
 
 import style from './LKProfile.module.scss';
 
 const { Content } = Layout;
+const { useToken } = theme;
 
 type SocialNetworkMetaDataType = {
   name: string;
@@ -99,11 +101,12 @@ function LKProfile(): JSX.Element {
   const [newTags, setNewTags] = useState<TagType[]>([]);
   const [inputValue, setInputValue] = useState('');
   const inputRef = useRef<InputRef>(null);
+  const { user } = useAppSelector((state) => state.authReducer);
   const { profile } = useAppSelector((state) => state.userReducer);
 
   const {
     token: { colorTextLabel, controlHeight },
-  } = theme.useToken();
+  } = useToken();
 
   useEffect(() => {
     if (inputVisible && inputRef.current) {
@@ -134,7 +137,7 @@ function LKProfile(): JSX.Element {
             <div>
               <div className={style.avatarHolder}>
                 <img alt="Картинка пользователя" src={profile.urlAvatar || IMAGES.noneProfileAvatar} />
-                <div className={style.name}>{profile.firstName}</div>
+                <div className={style.name}>{profile.firstName || user.name || 'безымянный'}</div>
                 <div>Подпись</div>
               </div>
               <Divider dashed />
@@ -188,10 +191,7 @@ function LKProfile(): JSX.Element {
           </Card>
         </Col>
         <Col lg={17} md={24} sm={24} xs={24}>
-          <Card bordered={false}>
-            Место для персонального контента. Например тут можно было бы вывести все мои рецепты и тут же можно было бы
-            добавлять новые.
-          </Card>
+          <RecipeList />
         </Col>
       </Row>
     </Content>

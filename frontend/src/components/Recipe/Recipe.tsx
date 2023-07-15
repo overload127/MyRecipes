@@ -1,11 +1,14 @@
-// @ts-nocheck
 import { useState, useEffect } from 'react';
-import { Layout, Col, Row, Image, Rate, Card, Steps } from 'antd';
+import { useParams } from 'react-router-dom';
+import { Layout, Col, Row, Image, Rate, Card, Grid, Steps } from 'antd';
+import type { StepProps } from 'antd';
 import { FrownOutlined, MehOutlined, SmileOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Radar, Column } from '@ant-design/plots';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import style from './Recipe.module.scss';
 
 const { Content } = Layout;
+const { useBreakpoint } = Grid;
 
 const customIcons: Record<number, React.ReactNode> = {
   1: <FrownOutlined />,
@@ -14,8 +17,6 @@ const customIcons: Record<number, React.ReactNode> = {
   4: <SmileOutlined />,
   5: <SmileOutlined />,
 };
-
-const selectIcon = ({ index }: { index: number }) => customIcons[index + 1];
 
 const data = [
   {
@@ -60,86 +61,19 @@ const data = [
   },
 ];
 
-const configColumn = {
-  data: data.map((item) => ({ label: item.label, averageTime: item.averageTime })),
-  xField: 'label',
-  yField: 'averageTime',
-  columnStyle: {
-    fill: 'green',
-    fillOpacity: 0.5,
-    stroke: 'black',
-    lineWidth: 1,
-    lineDash: [4, 5],
-    strokeOpacity: 0.7,
-    shadowColor: 'black',
-    shadowBlur: 10,
-    shadowOffsetX: 5,
-    shadowOffsetY: 5,
-    cursor: 'pointer',
-  },
-  meta: {
-    label: {
-      alias: 'Этап приготовления',
-    },
-    averageTime: {
-      alias: 'Время (мин)',
-    },
-  },
-  title: {
-    visible: true,
-    text: 'Your Stats',
-  },
-};
+function Recipe(): JSX.Element {
+  const { recipeId } = useParams();
+  const { displayFullRecipe: recipeData } = useAppSelector((state) => state.recipesReducer);
+  const screens = useBreakpoint();
+  const dispatch = useAppDispatch();
 
-const dataRadar = [
-  {
-    name: 'Белки (г)',
-    count: 100,
-  },
-  {
-    name: 'Жиры (г)',
-    count: 149,
-  },
-  {
-    name: 'Углеводы (г)',
-    count: 50,
-  },
-  {
-    name: 'Калорийность',
-    count: 36,
-  },
-];
+  console.log(recipeData, recipeId, dispatch, useState);
 
-const configRadar = {
-  data: dataRadar.map((d) => ({ ...d })),
-  xField: 'name',
-  yField: 'count',
-  appendPadding: [0, 10, 0, 10],
-  meta: {
-    count: {
-      alias: 'Грамм',
-      min: 0,
-      nice: true,
-      formatter: (v) => Number(v).toFixed(2),
-    },
-  },
-  xAxis: {
-    tickLine: null,
-  },
-  yAxis: {
-    label: false,
-    grid: {
-      alternateColor: 'rgba(0, 0, 0, 0.04)',
-    },
-  },
-  point: {
-    size: 2,
-  },
-  area: {},
-};
-
-function Recipes(): JSX.Element {
+  useEffect(() => {}, []);
+  // debugger;
   const [currentStep, setCurrentStep] = useState(0);
+  // const [secondsLeft, setSecondsLeft] = useState(0);
+  // const [isActive, setIsActive] = useState(false);
   useEffect(() => {
     const idTimer = setTimeout(() => {
       if (currentStep === data.length - 1) {
@@ -153,8 +87,28 @@ function Recipes(): JSX.Element {
     };
   }, [currentStep]);
 
-  const dataSteps = data.map((item, index) => {
-    let status = 'wait';
+  // useEffect(() => {
+  //   const firstStepTime = data[currentStep].averageTime;
+  //   setSecondsLeft(firstStepTime);
+  // }, []);
+
+  // useEffect(() => {
+  //   if (isActive) {
+  //     const interval = setInterval(() => {
+  //       setSecondsLeft((secondsLeft) => secondsLeft - 1);
+  //     }, 1000);
+
+  //     if (secondsLeft === 0) {
+  //       clearInterval(interval);
+  //       setIsActive(false);
+  //     }
+
+  //     return () => clearInterval(interval);
+  //   }
+  // }, [isActive, secondsLeft, timesUp]);
+
+  const dataSteps: StepProps[] = data.map((item, index) => {
+    let status: 'error' | 'wait' | 'process' | 'finish' | undefined = 'wait';
     let icon = null;
     if (index < currentStep) status = 'finish';
     else if (index === currentStep) {
@@ -170,18 +124,89 @@ function Recipes(): JSX.Element {
     };
   });
 
+  const dataRadar = [
+    {
+      name: 'Белки',
+      count: 100,
+    },
+    {
+      name: 'Жиры',
+      count: 149,
+    },
+    {
+      name: 'Углев.',
+      count: 50,
+    },
+  ];
+
+  const configRadar = {
+    data: dataRadar.map((d) => ({ ...d })),
+    xField: 'name',
+    yField: 'count',
+    appendPadding: [0, 10, 0, 10],
+    meta: {
+      count: {
+        alias: 'Грамм',
+        min: 0,
+        nice: true,
+        formatter: (v: any) => Number(v).toFixed(2),
+      },
+    },
+    xAxis: {
+      tickLine: null,
+    },
+    yAxis: {
+      label: false,
+      grid: {
+        alternateColor: 'rgba(0, 0, 0, 0.04)',
+      },
+    },
+    point: {
+      size: 2,
+    },
+    area: {},
+  };
+
+  const configColumn = {
+    data: data.map((item) => ({ label: item.label, averageTime: item.averageTime })),
+    xField: 'label',
+    yField: 'averageTime',
+    columnStyle: {
+      fill: 'green',
+      fillOpacity: 0.5,
+      stroke: 'black',
+      lineWidth: 1,
+      lineDash: [4, 5],
+      strokeOpacity: 0.7,
+      shadowColor: 'black',
+      shadowBlur: 10,
+      shadowOffsetX: 5,
+      shadowOffsetY: 5,
+      cursor: 'pointer',
+    },
+    meta: {
+      label: {
+        alias: 'Этап приготовления',
+      },
+      averageTime: {
+        alias: 'Время (мин)',
+      },
+    },
+    title: {
+      visible: true,
+      text: 'Your Stats',
+    },
+  };
+
+  const cardStyle = screens.sm
+    ? { paddingLeft: '12px', paddingRight: '12px', marginBottom: '20px' }
+    : { padding: '0px', marginBottom: '8px' };
+
   return (
     <Content className={style.container}>
       <Row gutter={24}>
-        <Col
-          xl={24}
-          lg={24}
-          md={24}
-          sm={24}
-          xs={24}
-          style={{ paddingLeft: '12px', paddingRight: '12px', marginBottom: '20px' }}
-        >
-          <Card bodyStyle={{ padding: '20px 24px 8px 24px' }}>
+        <Col xl={24} lg={24} md={24} sm={24} xs={24} style={cardStyle}>
+          <Card className={style.card}>
             <Image
               rootClassName={style.firstCell}
               src="https://www.ixbt.com/img/n1/news/2021/9/5/d5d11c91b095686fcaa0f14cf8bbb7fa-600x450_large.jpg"
@@ -207,52 +232,24 @@ function Recipes(): JSX.Element {
         </Col>
       </Row>
       <Row gutter={24}>
-        <Col
-          xl={12}
-          lg={24}
-          md={24}
-          sm={24}
-          xs={24}
-          style={{ paddingLeft: '12px', paddingRight: '12px', marginBottom: '20px' }}
-        >
-          <Card bodyStyle={{ padding: '20px 24px 8px 24px' }}>
+        <Col xl={12} lg={24} md={24} sm={24} xs={24} style={cardStyle}>
+          <Card className={style.card}>
             <Steps direction="vertical" size="small" items={dataSteps} />
           </Card>
         </Col>
-        <Col
-          xl={12}
-          lg={24}
-          md={24}
-          sm={24}
-          xs={24}
-          style={{ paddingLeft: '12px', paddingRight: '12px', marginBottom: '20px' }}
-        >
+        <Col xl={12} lg={24} md={24} sm={24} xs={24} style={cardStyle}>
           <Card bodyStyle={{ padding: '20px 24px 8px 24px' }}>
             <div className={style.chartTitle}>Время готовки (шаги/минуты)</div>
             <Column {...configColumn} />
           </Card>
         </Col>
-        <Col
-          xl={12}
-          lg={24}
-          md={24}
-          sm={24}
-          xs={24}
-          style={{ paddingLeft: '12px', paddingRight: '12px', marginBottom: '20px' }}
-        >
+        <Col xl={12} lg={24} md={24} sm={24} xs={24} style={cardStyle}>
           <Card bodyStyle={{ padding: '20px 24px 8px 24px' }}>
             <div className={style.chartTitle}>Распределение компонентов</div>
             <Radar {...configRadar} />
           </Card>
         </Col>
-        <Col
-          xl={12}
-          lg={24}
-          md={24}
-          sm={24}
-          xs={24}
-          style={{ paddingLeft: '12px', paddingRight: '12px', marginBottom: '20px' }}
-        >
+        <Col xl={12} lg={24} md={24} sm={24} xs={24} style={cardStyle}>
           <Card
             bodyStyle={{
               padding: '20px 24px 24px 24px',
@@ -264,11 +261,11 @@ function Recipes(): JSX.Element {
           >
             <div className={style.row}>
               <div>Общий рейтинг</div>
-              <Rate value={4} character={selectIcon} disabled />
+              <Rate allowHalf value={4} character={({ index }) => customIcons[index! + 1]} disabled />
             </div>
             <div className={style.row}>
               <div>Ваша отметка</div>
-              <Rate value={0} character={selectIcon} />
+              <Rate value={0} character={({ index }) => customIcons[index! + 1]} />
             </div>
           </Card>
         </Col>
@@ -277,4 +274,4 @@ function Recipes(): JSX.Element {
   );
 }
 
-export default Recipes;
+export default Recipe;

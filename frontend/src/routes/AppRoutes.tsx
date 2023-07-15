@@ -18,8 +18,8 @@ function AppRoutes(): JSX.Element {
         <Route path="account/*" element={withSuspense(AccountRoutes)} />
       </Route>
 
-      <Route path="recipe/*" element={withSuspense(Recipe)} />
-      <Route path="recipes/*" element={withSuspense(Recipes)} />
+      <Route path="recipe/:recipeId" element={withSuspense(Recipe)} />
+      <Route path="recipes/" element={withSuspense(Recipes)} />
       <Route path="/" element={<Home />} />
       <Route path="*" element={<Page404 />} />
     </Routes>

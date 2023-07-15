@@ -1,14 +1,29 @@
 .container {
     margin: 24px;
 
-    .firstCell {
-        width: 600px;
-        float: left;
-        padding: 10px;
+    @media (max-width: 767px) {
+        margin: 8px;
     }
     
-    .description {
-        font-size: 1.2rem;
+    .card {
+        > * {
+            padding: 20px 24px 8px 24px;
+
+            @media (max-width: 767px) {
+                padding: 10px 12px 4px 12px;
+            }
+            
+            .firstCell {
+                width: 100%;
+                max-width: 600px;
+                float: left;
+                padding: 10px;
+            }
+            
+            .description {
+                font-size: 1.2rem;
+            }
+        }
     }
 
     .chartTitle {

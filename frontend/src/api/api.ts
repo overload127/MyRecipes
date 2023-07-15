@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { IRecipesPageResponse } from 'models/response/RecipeResponse';
+import { IPageDataResponse, IRecipeFullResponse } from 'models/response/RecipeResponse';
 import { IAuthResponse } from 'models/response/AuthResponse';
 import { IProfileResponse } from 'models/response/ProfileResponse';
 import { IProfileSocialNetworksRequest } from 'models/request/ProfileRequest';
@@ -21,11 +21,14 @@ export const authAPI = {
 };
 
 export const recipeAPI = {
-  loadPageData(page: number, isDesc: boolean, perPage: number): Promise<AxiosResponse<IRecipesPageResponse>> {
-    return instancePublic.get<IRecipesPageResponse>(
+  loadPageData(page: number, isDesc: boolean, perPage: number): Promise<AxiosResponse<IPageDataResponse>> {
+    return instancePublic.get<IPageDataResponse>(
       `/api/v1/recipes?page=${page}&is_desc=${Number(isDesc)}&per_page=${perPage}`,
       {},
     );
+  },
+  loadRecipe(id: string): Promise<AxiosResponse<IRecipeFullResponse>> {
+    return instancePublic.get<IRecipeFullResponse>(`/api/v1/recipes/${id}`, {});
   },
 };
 
