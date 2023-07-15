@@ -23,12 +23,12 @@ export const authAPI = {
 export const recipeAPI = {
   loadPageData(page: number, isDesc: boolean, perPage: number): Promise<AxiosResponse<IPageDataResponse>> {
     return instancePublic.get<IPageDataResponse>(
-      `/api/v1/recipes?page=${page}&is_desc=${Number(isDesc)}&per_page=${perPage}`,
+      `/recipes?page=${page}&is_desc=${Number(isDesc)}&per_page=${perPage}`,
       {},
     );
   },
   loadRecipe(id: string): Promise<AxiosResponse<IRecipeFullResponse>> {
-    return instancePublic.get<IRecipeFullResponse>(`/api/v1/recipes/${id}`, {});
+    return instancePublic.get<IRecipeFullResponse>(`/recipes/${id}`, {});
   },
 };
 
