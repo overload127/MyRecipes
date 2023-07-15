@@ -39,6 +39,7 @@ urlpatterns = [
         name="token_blacklist",
     ),
     path("api/v1/core/", include(("core.urls", "core"), namespace="core")),
+    path("api/v1/recipes/", include(("recipes.urls", "recipes"), namespace="recipes")),
 ]
 
 if settings.DEBUG:
