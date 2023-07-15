@@ -1,8 +1,9 @@
+import { useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Card, Rate, Pagination } from 'antd';
 import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { changePerPage } from 'store/reducers/recipes/ActionCreators';
+import { changePerPage, loadRecipesByPage } from 'store/reducers/recipes/ActionCreators';
 import style from './RecipeList.module.scss';
 
 const { Meta } = Card;
@@ -16,15 +17,24 @@ const customIcons: Record<number, React.ReactNode> = {
 };
 
 function RecipeList(): JSX.Element {
+  const scrollToRef = useRef<HTMLDivElement | null>(null);
   const dispatch = useAppDispatch();
-  const { isFailed, error, objectData: recipes } = useAppSelector((state) => state.recipesReducer.recipes);
+  const { isFailed, error, objectData: recipes, isFetching } = useAppSelector((state) => state.recipesReducer.recipes);
   const { currentPage, perPage, total } = useAppSelector((state) => state.recipesReducer.parameters);
+
+  useEffect(() => {
+    dispatch(loadRecipesByPage(currentPage, false, perPage));
+  }, [currentPage, perPage, dispatch]);
+
+  useEffect(() => {
+    if (!isFetching) scrollToRef.current?.scrollIntoView(true);
+  }, [isFetching]);
 
   if (isFailed) return <p>{error}</p>;
 
   return (
     <div className={style.wrapper}>
-      <div className={style.container}>
+      <div className={style.container} ref={scrollToRef}>
         {recipes.map((recipe) => (
           <NavLink to={`/recipe/${recipe.id}`} key={recipe.id}>
             <Card
@@ -60,7 +70,7 @@ function RecipeList(): JSX.Element {
       </div>
       <div className={style.pagination}>
         <Pagination
-          current={currentPage}
+          current={currentPage + 1}
           total={total}
           pageSize={perPage}
           onChange={(page, size) => {

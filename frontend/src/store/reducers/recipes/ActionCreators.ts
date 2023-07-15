@@ -31,31 +31,34 @@ import { IParameters, recipeSlice } from './Slice';
 //   }));
 // };
 
-export const loadRecipesByPage = (page: number, isDesc: boolean, perPage: number) => async (dispatch: AppDispatch) => {
-  dispatch(recipeSlice.actions.startFetching());
-  try {
-    const result = await recipeAPI.loadPageData(page, isDesc, perPage);
-    const recipes: IRecipeLite[] = result.data.recipes.map((item) => ({
-      id: item.id,
-      authorName: item.author_name,
-      name: item.name,
-      description: item.description,
-      meanRating: item.mean_rating,
-    }));
-    const parameters: IParameters = {
-      currentPage: result.data.page,
-      isDesc: Boolean(result.data.is_desc),
-      total: result.data.total,
-      perPage: result.data.per_page,
-    };
-    dispatch(recipeSlice.actions.loadSuccess(recipes));
-    dispatch(recipeSlice.actions.setParameters(parameters));
-  } catch (e) {
-    console.error(e.response?.data?.message);
-    console.error(e.message);
-    dispatch(recipeSlice.actions.loadError(e.message));
-  }
-};
+export const loadRecipesByPage =
+  (page: number, isDesc: boolean, perPage: number) => async (dispatch: AppDispatch, getStore: () => RootState) => {
+    const { isFetching } = getStore().recipesReducer.recipes;
+    if (isFetching) return;
+    dispatch(recipeSlice.actions.startFetching());
+    try {
+      const result = await recipeAPI.loadPageData(page, isDesc, perPage);
+      const recipes: IRecipeLite[] = result.data.recipes.map((item) => ({
+        id: item.id,
+        authorName: item.author_name,
+        name: item.name,
+        description: item.description,
+        meanRating: item.mean_rating,
+      }));
+      const parameters: IParameters = {
+        currentPage: result.data.page,
+        isDesc: Boolean(result.data.is_desc),
+        total: result.data.total,
+        perPage: result.data.per_page,
+      };
+      dispatch(recipeSlice.actions.loadSuccess(recipes));
+      dispatch(recipeSlice.actions.setParameters(parameters));
+    } catch (e) {
+      console.error(e.response?.data?.message);
+      console.error(e.message);
+      dispatch(recipeSlice.actions.loadError(e.message));
+    }
+  };
 
 export const changePage =
   (page: number, perPage: number) => async (dispatch: AppDispatch, getStore: () => RootState) => {
@@ -68,13 +71,12 @@ export const changePerPage =
     const { isDesc, total } = getStore().recipesReducer.parameters;
     await dispatch(
       recipeSlice.actions.setParameters({
-        currentPage: page,
+        currentPage: page - 1,
         isDesc,
         total,
         perPage,
       }),
     );
-    await dispatch(loadRecipesByPage(page, isDesc, perPage));
   };
 
 export default null;
